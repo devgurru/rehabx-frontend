@@ -1,0 +1,116 @@
+import { ArrowLeft, ClipboardPen } from 'lucide-react';
+import { Link, useParams, useSearchParams } from 'react-router';
+import { usePatient } from '@/api/queries';
+import { PatientStatusBadge, SpecialtyBadge } from '@/components/shared/badges';
+import { PatientAvatar } from '@/components/shared/PatientAvatar';
+import { ProgressRing } from '@/components/shared/progress';
+import { ErrorState, PageSkeleton } from '@/components/shared/states';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { AssessmentTab } from './AssessmentTab';
+import { ExercisesTab } from './ExercisesTab';
+import { KpisTab } from './KpisTab';
+import { MilestonesTab } from './MilestonesTab';
+import { OverviewTab } from './OverviewTab';
+import { PlanTab } from './PlanTab';
+import { ProgressTab } from './ProgressTab';
+import { TimelineTab } from './TimelineTab';
+
+const TABS = [
+  { value: 'overview', label: 'Overview' },
+  { value: 'assessment', label: 'Assessment' },
+  { value: 'plan', label: 'Rehabilitation plan' },
+  { value: 'exercises', label: 'Exercises' },
+  { value: 'kpis', label: 'KPIs' },
+  { value: 'progress', label: 'Progress' },
+  { value: 'milestones', label: 'Milestones' },
+  { value: 'timeline', label: 'Timeline' },
+] as const;
+
+export default function PatientDetailPage() {
+  const { id = '' } = useParams();
+  const [params, setParams] = useSearchParams();
+  const tab = TABS.some((t) => t.value === params.get('tab')) ? params.get('tab')! : 'overview';
+  const { data: patient, isPending, error, refetch } = usePatient(id);
+
+  if (isPending) return <PageSkeleton />;
+  if (error) return <ErrorState error={error} onRetry={() => void refetch()} />;
+
+  return (
+    <div className="space-y-6">
+      <Button asChild variant="ghost" size="sm" className="text-muted-foreground -ml-2">
+        <Link to="/patients">
+          <ArrowLeft /> Patients
+        </Link>
+      </Button>
+
+      <div className="bg-card flex flex-col gap-5 rounded-2xl border p-5 md:flex-row md:items-center md:p-6">
+        <PatientAvatar name={patient.fullName} color={patient.avatarColor} size="lg" />
+        <div className="min-w-0 flex-1 space-y-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <h1 className="text-2xl font-bold tracking-tight">{patient.fullName}</h1>
+            <PatientStatusBadge status={patient.status} />
+          </div>
+          <p className="text-muted-foreground text-sm">
+            {patient.age} years · {patient.gender === 'MALE' ? 'Male' : 'Female'} ·{' '}
+            <span className="text-foreground font-medium">{patient.diagnosis.name}</span>
+          </p>
+          <div className="flex flex-wrap items-center gap-2">
+            <SpecialtyBadge specialty={patient.specialty} />
+            {patient.program && (
+              <span className="text-muted-foreground text-xs">
+                Week {patient.program.currentWeek} of {patient.program.durationWeeks}
+              </span>
+            )}
+          </div>
+        </div>
+        <div className="flex items-center gap-5">
+          {!patient.requiresReview && (
+            <ProgressRing value={patient.progress} size={88} stroke={8} />
+          )}
+          <Button asChild size="lg">
+            <Link to={`/patients/${patient.id}/care-plan`}>
+              <ClipboardPen /> {patient.requiresReview ? 'Start care plan' : 'Care plan'}
+            </Link>
+          </Button>
+        </div>
+      </div>
+
+      <Tabs value={tab} onValueChange={(value) => setParams({ tab: value }, { replace: true })}>
+        <div className="-mx-4 overflow-x-auto px-4 md:mx-0 md:px-0">
+          <TabsList>
+            {TABS.map((t) => (
+              <TabsTrigger key={t.value} value={t.value}>
+                {t.label}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </div>
+        <TabsContent value="overview" className="mt-4">
+          <OverviewTab patient={patient} />
+        </TabsContent>
+        <TabsContent value="assessment" className="mt-4">
+          <AssessmentTab patientId={id} />
+        </TabsContent>
+        <TabsContent value="plan" className="mt-4">
+          <PlanTab patientId={id} />
+        </TabsContent>
+        <TabsContent value="exercises" className="mt-4">
+          <ExercisesTab patientId={id} />
+        </TabsContent>
+        <TabsContent value="kpis" className="mt-4">
+          <KpisTab patientId={id} />
+        </TabsContent>
+        <TabsContent value="progress" className="mt-4">
+          <ProgressTab patientId={id} />
+        </TabsContent>
+        <TabsContent value="milestones" className="mt-4">
+          <MilestonesTab patientId={id} />
+        </TabsContent>
+        <TabsContent value="timeline" className="mt-4">
+          <TimelineTab patientId={id} />
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+}
