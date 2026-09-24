@@ -166,7 +166,7 @@ export function AppShell() {
             </span>
           </div>
         </header>
-        <main className="mx-auto w-full max-w-[1400px] flex-1 p-4 md:p-6 lg:p-8">
+        <main className="mx-auto w-full min-w-0 max-w-[1400px] flex-1 p-4 md:p-6 lg:p-8">
           <Outlet />
         </main>
       </SidebarInset>
