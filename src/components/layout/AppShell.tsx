@@ -116,7 +116,7 @@ export function AppShell() {
         <SidebarFooter>
           <SidebarMenu>
             <SidebarMenuItem>
-              <DropdownMenu>
+              <DropdownMenu dir={i18n.dir()}>
                 <DropdownMenuTrigger asChild>
                   <SidebarMenuButton size="lg" className="data-[state=open]:bg-sidebar-accent">
                     <PatientAvatar
@@ -124,7 +124,7 @@ export function AppShell() {
                       color="#0e7c86"
                       size="sm"
                     />
-                    <span className="grid flex-1 text-left leading-tight">
+                    <span className="grid flex-1 text-start leading-tight">
                       <span className="truncate text-sm font-semibold">{user?.displayName}</span>
                       <span className="text-muted-foreground truncate text-xs">{user?.title}</span>
                     </span>

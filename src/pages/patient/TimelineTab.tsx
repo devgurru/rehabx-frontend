@@ -27,7 +27,7 @@ export function TimelineTab({ patientId }: { patientId: string }) {
               : timelineIcon[e.type];
             return (
               <li key={e.id} className="grid grid-cols-[4.5rem_2.25rem_1fr] gap-3">
-                <div className="pt-1.5 text-right">
+                <div className="pt-1.5 text-end">
                   <p className="text-sm font-semibold">{formatShortDate(e.occurredAt)}</p>
                   <p className="text-muted-foreground text-xs">{formatTime(e.occurredAt)}</p>
                 </div>

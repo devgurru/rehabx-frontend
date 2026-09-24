@@ -28,7 +28,7 @@ export function ProgressBar({
         />
       </div>
       {showValue && (
-        <span className="tabular w-10 text-right text-sm font-semibold">
+        <span className="tabular w-10 text-end text-sm font-semibold">
           {Math.round(clamped)}%
         </span>
       )}

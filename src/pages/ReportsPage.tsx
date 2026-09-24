@@ -88,8 +88,8 @@ export default function ReportsPage() {
               <TableHeader>
                 <TableRow>
                   <TableHead className="pl-6">{t('tableSpecialty')}</TableHead>
-                  <TableHead className="text-right">{t('tableExercises')}</TableHead>
-                  <TableHead className="pr-6 text-right">{t('tablePrograms')}</TableHead>
+                  <TableHead className="text-end">{t('tableExercises')}</TableHead>
+                  <TableHead className="pr-6 text-end">{t('tablePrograms')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -105,8 +105,8 @@ export default function ReportsPage() {
                         {s.name}
                       </span>
                     </TableCell>
-                    <TableCell className="tabular text-right">{s.exercises}</TableCell>
-                    <TableCell className="tabular pr-6 text-right">{s.programs}</TableCell>
+                    <TableCell className="tabular text-end">{s.exercises}</TableCell>
+                    <TableCell className="tabular pr-6 text-end">{s.programs}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
