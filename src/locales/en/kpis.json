@@ -1,0 +1,16 @@
+{
+  "title": "Outcome KPIs",
+  "description": "A flexible, data-driven KPI model — new pathways add KPIs as configuration, not code.",
+  "configPreview": "Configuration preview",
+  "cohortOutcomes": "Cohort outcomes",
+  "cohortDesc": "Average baseline, current and target of general KPIs across active programs",
+  "catGeneralTitle": "General",
+  "catGeneralDesc": "Tracked for every pediatric rehabilitation patient",
+  "catSpecialtyTitle": "Specialty-specific",
+  "catSpecialtyDesc": "Owned by a rehabilitation specialty",
+  "catDiagnosisTitle": "Diagnosis-specific",
+  "catDiagnosisDesc": "Tracked for a particular diagnosis",
+  "baseline": "Baseline",
+  "current": "Current",
+  "target": "Target"
+}

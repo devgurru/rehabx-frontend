@@ -7,26 +7,29 @@ import { ErrorState, PageSkeleton } from '@/components/shared/states';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import type { KpiCategory } from '@/lib/types';
-
-const CATEGORIES: { key: KpiCategory; title: string; description: string }[] = [
-  {
-    key: 'GENERAL',
-    title: 'General',
-    description: 'Tracked for every pediatric rehabilitation patient',
-  },
-  {
-    key: 'SPECIALTY',
-    title: 'Specialty-specific',
-    description: 'Owned by a rehabilitation specialty',
-  },
-  {
-    key: 'DIAGNOSIS',
-    title: 'Diagnosis-specific',
-    description: 'Tracked for a particular diagnosis',
-  },
-];
+import { useTranslation } from 'react-i18next';
 
 export default function KpisPage() {
+  const { t } = useTranslation('kpis');
+  
+  const CATEGORIES: { key: KpiCategory; title: string; description: string }[] = [
+    {
+      key: 'GENERAL',
+      title: t('catGeneralTitle'),
+      description: t('catGeneralDesc'),
+    },
+    {
+      key: 'SPECIALTY',
+      title: t('catSpecialtyTitle'),
+      description: t('catSpecialtyDesc'),
+    },
+    {
+      key: 'DIAGNOSIS',
+      title: t('catDiagnosisTitle'),
+      description: t('catDiagnosisDesc'),
+    },
+  ];
+
   const definitions = useKpiDefinitions();
   const dashboard = useDashboard();
   if (definitions.isPending) return <PageSkeleton />;
@@ -36,20 +39,20 @@ export default function KpisPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Outcome KPIs"
-        description="A flexible, data-driven KPI model — new pathways add KPIs as configuration, not code."
+        title={t('title')}
+        description={t('description')}
         actions={
           <Badge variant="outline" className="gap-1">
-            <Settings2 aria-hidden /> Configuration preview
+            <Settings2 aria-hidden /> {t('configPreview')}
           </Badge>
         }
       />
 
       <Card>
         <CardHeader>
-          <CardTitle>Cohort outcomes</CardTitle>
+          <CardTitle>{t('cohortOutcomes')}</CardTitle>
           <CardDescription>
-            Average baseline, current and target of general KPIs across active programs
+            {t('cohortDesc')}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -72,12 +75,12 @@ export default function KpisPage() {
                 .map((k) => (
                   <div key={k.id} className="space-y-1.5 rounded-lg border p-3">
                     <div className="flex items-center justify-between gap-2">
-                      <p className="font-medium">{k.name}</p>
-                      <span className="text-muted-foreground text-xs">{k.unit}</span>
+                      <p className="font-medium" dir="auto">{k.name}</p>
+                      <span className="text-muted-foreground text-xs" dir="auto">{k.unit}</span>
                     </div>
-                    <p className="text-muted-foreground text-xs">{k.description}</p>
+                    <p className="text-muted-foreground text-xs" dir="auto">{k.description}</p>
                     {k.specialty && <SpecialtyBadge specialty={k.specialty} />}
-                    {k.diagnosis && <Badge variant="secondary">{k.diagnosis.name}</Badge>}
+                    {k.diagnosis && <Badge variant="secondary" dir="auto">{k.diagnosis.name}</Badge>}
                   </div>
                 ))}
             </CardContent>

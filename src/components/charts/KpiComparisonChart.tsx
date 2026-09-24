@@ -7,6 +7,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
+import { useTranslation } from 'react-i18next';
 
 export interface KpiComparisonDatum {
   name: string;
@@ -14,12 +15,6 @@ export interface KpiComparisonDatum {
   current: number;
   target: number;
 }
-
-const config = {
-  baseline: { label: 'Baseline', color: 'var(--series-baseline)' },
-  current: { label: 'Current', color: 'var(--chart-1)' },
-  target: { label: 'Target', color: 'var(--foreground)' },
-} satisfies ChartConfig;
 
 /** Target marker — a short horizontal tick centred over the KPI's bar group. */
 function TargetTick(props: { cx?: number; cy?: number }) {
@@ -44,6 +39,24 @@ export function KpiComparisonChart({
   data: KpiComparisonDatum[];
   className?: string;
 }) {
+  const { t } = useTranslation('kpis');
+  
+  const config = {
+    baseline: { label: t('baseline'), color: 'var(--series-baseline)' },
+    current: { label: t('current'), color: 'var(--chart-1)' },
+    target: { label: t('target'), color: 'var(--foreground)' },
+  } satisfies ChartConfig;
+
+  function percentFormatter(value: unknown, name: unknown) {
+    const label = config[name as keyof typeof config]?.label ?? String(name);
+    return (
+      <div className="flex w-full items-center justify-between gap-4">
+        <span className="text-muted-foreground">{label}</span>
+        <span className="tabular text-foreground font-medium">{Math.round(Number(value))}%</span>
+      </div>
+    );
+  }
+
   return (
     <ChartContainer config={config} className={className ?? 'h-72 w-full'}>
       <ComposedChart
@@ -82,15 +95,5 @@ export function KpiComparisonChart({
         />
       </ComposedChart>
     </ChartContainer>
-  );
-}
-
-function percentFormatter(value: unknown, name: unknown) {
-  const label = config[name as keyof typeof config]?.label ?? String(name);
-  return (
-    <div className="flex w-full items-center justify-between gap-4">
-      <span className="text-muted-foreground">{label}</span>
-      <span className="tabular text-foreground font-medium">{Math.round(Number(value))}%</span>
-    </div>
   );
 }

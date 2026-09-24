@@ -16,6 +16,8 @@ import enPrograms from './en/programs.json';
 import arPrograms from './ar/programs.json';
 import enReferrals from './en/referrals.json';
 import arReferrals from './ar/referrals.json';
+import enKpis from './en/kpis.json';
+import arKpis from './ar/kpis.json';
 
 const resources = {
   en: {
@@ -26,6 +28,7 @@ const resources = {
     carePlan: enCarePlan,
     programs: enPrograms,
     referrals: enReferrals,
+    kpis: enKpis,
   },
   ar: {
     common: arCommon,
@@ -35,6 +38,7 @@ const resources = {
     carePlan: arCarePlan,
     programs: arPrograms,
     referrals: arReferrals,
+    kpis: arKpis,
   },
 };
 
