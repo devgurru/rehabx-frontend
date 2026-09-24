@@ -40,17 +40,20 @@ import { PatientAvatar } from '@/components/shared/PatientAvatar';
 import { signedOut } from '@/store/authSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { Logo } from './Logo';
+import { useTranslation } from 'react-i18next';
+import { LanguageSwitcher } from './LanguageSwitcher';
 
 const NAV = [
-  { to: '/', label: 'Dashboard', icon: LayoutDashboard, end: true },
-  { to: '/patients', label: 'Patients', icon: Users },
-  { to: '/programs', label: 'Programs', icon: ClipboardList },
-  { to: '/referrals', label: 'Referrals', icon: Send },
-  { to: '/kpis', label: 'KPIs', icon: Activity },
-  { to: '/reports', label: 'Reports', icon: BarChart3 },
+  { to: '/', tKey: 'dashboard', icon: LayoutDashboard, end: true },
+  { to: '/patients', tKey: 'patients', icon: Users },
+  { to: '/programs', tKey: 'programs', icon: ClipboardList },
+  { to: '/referrals', tKey: 'referrals', icon: Send },
+  { to: '/kpis', tKey: 'kpis', icon: Activity },
+  { to: '/reports', tKey: 'reports', icon: BarChart3 },
 ];
 
 export function AppShell() {
+  const { t, i18n } = useTranslation();
   const user = useAppSelector((s) => s.auth.user);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -67,7 +70,7 @@ export function AppShell() {
 
   return (
     <SidebarProvider>
-      <Sidebar collapsible="icon">
+      <Sidebar collapsible="icon" side={i18n.dir() === 'rtl' ? 'right' : 'left'}>
         <SidebarHeader className="px-3 pt-4">
           <NavLink to="/" className="flex items-center gap-2 px-1" aria-label="RehabX home">
             <Logo className="group-data-[collapsible=icon]:hidden" />
@@ -79,7 +82,7 @@ export function AppShell() {
         </SidebarHeader>
         <SidebarContent>
           <SidebarGroup>
-            <SidebarGroupLabel>Clinical workspace</SidebarGroupLabel>
+            <SidebarGroupLabel>{t('nav.clinicalWorkspace')}</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {NAV.map((item) => (
@@ -87,11 +90,11 @@ export function AppShell() {
                     <SidebarMenuButton
                       asChild
                       isActive={isActive(item.to, item.end)}
-                      tooltip={item.label}
+                      tooltip={t(`nav.${item.tKey}`)}
                     >
                       <NavLink to={item.to} end={item.end}>
                         <item.icon />
-                        <span>{item.label}</span>
+                        <span>{t(`nav.${item.tKey}`)}</span>
                       </NavLink>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -102,10 +105,10 @@ export function AppShell() {
           <SidebarGroup className="mt-auto group-data-[collapsible=icon]:hidden">
             <div className="bg-brand-soft/60 text-accent-foreground rounded-lg border p-3 text-xs">
               <p className="flex items-center gap-1.5 font-semibold">
-                <FileText className="size-3.5" aria-hidden /> Investor prototype
+                <FileText className="size-3.5" aria-hidden /> {t('nav.investorPrototype')}
               </p>
               <p className="text-accent-foreground/80 mt-1">
-                All patients and records are fictional demo data.
+                {t('nav.fictionalData')}
               </p>
             </div>
           </SidebarGroup>
@@ -139,7 +142,7 @@ export function AppShell() {
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onSelect={signOut}>
-                    <LogOut /> Sign out
+                    <LogOut /> {t('nav.signOut')}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -151,14 +154,17 @@ export function AppShell() {
 
       <SidebarInset>
         <header className="bg-background/85 sticky top-0 z-20 flex h-14 items-center gap-2 border-b px-4 backdrop-blur md:px-6">
-          <SidebarTrigger className="-ml-1" />
-          <Separator orientation="vertical" className="mr-1 h-5" />
+          <SidebarTrigger className="-ms-1" />
+          <Separator orientation="vertical" className="me-1 h-5" />
           <span className="text-muted-foreground text-sm">
-            Pediatric Rehabilitation · Riyadh Demo Clinic
+            {t('nav.clinicName')}
           </span>
-          <span className="bg-card text-muted-foreground ml-auto hidden rounded-full border px-2.5 py-1 text-xs font-medium sm:inline">
-            Demo environment
-          </span>
+          <div className="ms-auto flex items-center gap-2">
+            <span className="bg-card text-muted-foreground hidden rounded-full border px-2.5 py-1 text-xs font-medium sm:inline">
+              {t('nav.demoEnvironment')}
+            </span>
+            <LanguageSwitcher />
+          </div>
         </header>
         <main className="mx-auto w-full max-w-[1400px] flex-1 p-4 md:p-6 lg:p-8">
           <Outlet />

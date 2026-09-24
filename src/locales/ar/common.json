@@ -1,0 +1,16 @@
+{
+  "nav": {
+    "dashboard": "لوحة القيادة",
+    "patients": "المرضى",
+    "programs": "البرامج",
+    "referrals": "الإحالات",
+    "kpis": "مؤشرات الأداء",
+    "reports": "التقارير",
+    "clinicalWorkspace": "مساحة العمل السريرية",
+    "investorPrototype": "نموذج المستثمر",
+    "fictionalData": "جميع المرضى والسجلات عبارة عن بيانات تجريبية وهمية.",
+    "signOut": "تسجيل الخروج",
+    "clinicName": "إعادة تأهيل الأطفال · عيادة الرياض التجريبية",
+    "demoEnvironment": "بيئة تجريبية"
+  }
+}

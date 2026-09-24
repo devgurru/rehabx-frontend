@@ -1,0 +1,16 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "patients": "Patients",
+    "programs": "Programs",
+    "referrals": "Referrals",
+    "kpis": "KPIs",
+    "reports": "Reports",
+    "clinicalWorkspace": "Clinical workspace",
+    "investorPrototype": "Investor prototype",
+    "fictionalData": "All patients and records are fictional demo data.",
+    "signOut": "Sign out",
+    "clinicName": "Pediatric Rehabilitation · Riyadh Demo Clinic",
+    "demoEnvironment": "Demo environment"
+  }
+}

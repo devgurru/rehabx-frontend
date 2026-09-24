@@ -9,6 +9,7 @@ import { ApiError } from '@/lib/api';
 import { router } from './router';
 import { store } from './store';
 import './index.css';
+import './locales/i18n';
 
 const queryClient = new QueryClient({
   defaultOptions: {
