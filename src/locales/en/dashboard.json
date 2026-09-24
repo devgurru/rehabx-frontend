@@ -1,0 +1,60 @@
+{
+  "greeting": {
+    "morning": "Good morning",
+    "afternoon": "Good afternoon",
+    "evening": "Good evening",
+    "title": "{{greeting}}, Dr. {{name}}"
+  },
+  "header": {
+    "description": "Here is how your pediatric rehabilitation caseload is progressing.",
+    "viewPatients": "View patients"
+  },
+  "stats": {
+    "totalPatients": "Total patients",
+    "pediatricCaseload": "Pediatric caseload",
+    "activePrograms": "Active programs",
+    "acrossSpecialties": "Across 3 specialties",
+    "requiringReview": "Requiring review",
+    "awaitingReview": "Awaiting physician review",
+    "allReviewed": "All patients reviewed",
+    "averageProgress": "Average progress",
+    "patientsInProgram": "Patients in an active program"
+  },
+  "cards": {
+    "kpi": {
+      "title": "KPI overview",
+      "description": "Cohort average of general KPIs — baseline, current and target"
+    },
+    "requiresReview": {
+      "title": "Requires review",
+      "description": "New assessments awaiting a care plan",
+      "allCaughtUp": "All caught up",
+      "allCaughtUpDesc": "Every assessed patient has an active care plan.",
+      "years": "{{age}} years",
+      "assessed": "Assessed",
+      "recommended": "recommended",
+      "specialtyPending": "specialty pending",
+      "startCarePlan": "Start care plan"
+    },
+    "patientProgress": {
+      "title": "Patient progress",
+      "description": "Overall rehabilitation progress",
+      "all": "All"
+    },
+    "homeExercise": {
+      "title": "Home exercise sessions",
+      "description": "Completed by caregivers, last 6 weeks"
+    },
+    "recentActivity": {
+      "title": "Recent activity",
+      "description": "Across all patients"
+    }
+  },
+  "activity": {
+    "Milestone plan updated": "Milestone plan updated",
+    "Rehabilitation goals set": "Rehabilitation goals set",
+    "Today's exercise program completed": "Today's exercise program completed",
+    "exercises assigned 2": "2 exercises assigned",
+    "exercises assigned 1": "1 exercise assigned"
+  }
+}

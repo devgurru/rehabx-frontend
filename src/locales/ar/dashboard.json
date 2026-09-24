@@ -1,0 +1,60 @@
+{
+  "greeting": {
+    "morning": "صباح الخير",
+    "afternoon": "مساء الخير",
+    "evening": "مساء الخير",
+    "title": "{{greeting}}، د. {{name}}"
+  },
+  "header": {
+    "description": "إليك كيف يتقدم عبء عمل إعادة تأهيل الأطفال الخاص بك.",
+    "viewPatients": "عرض المرضى"
+  },
+  "stats": {
+    "totalPatients": "إجمالي المرضى",
+    "pediatricCaseload": "عبء عمل الأطفال",
+    "activePrograms": "البرامج النشطة",
+    "acrossSpecialties": "عبر 3 تخصصات",
+    "requiringReview": "يتطلب المراجعة",
+    "awaitingReview": "في انتظار مراجعة الطبيب",
+    "allReviewed": "تمت مراجعة جميع المرضى",
+    "averageProgress": "متوسط التقدم",
+    "patientsInProgram": "المرضى في برنامج نشط"
+  },
+  "cards": {
+    "kpi": {
+      "title": "نظرة عامة على مؤشرات الأداء",
+      "description": "متوسط الفوج لمؤشرات الأداء العامة - خط الأساس، الحالي والهدف"
+    },
+    "requiresReview": {
+      "title": "يتطلب المراجعة",
+      "description": "تقييمات جديدة في انتظار خطة رعاية",
+      "allCaughtUp": "تم إنجاز كل شيء",
+      "allCaughtUpDesc": "كل مريض تم تقييمه لديه خطة رعاية نشطة.",
+      "years": "{{age}} سنة",
+      "assessed": "تم التقييم في",
+      "recommended": "موصى به",
+      "specialtyPending": "التخصص قيد الانتظار",
+      "startCarePlan": "بدء خطة الرعاية"
+    },
+    "patientProgress": {
+      "title": "تقدم المريض",
+      "description": "التقدم العام لإعادة التأهيل",
+      "all": "الكل"
+    },
+    "homeExercise": {
+      "title": "جلسات التمارين المنزلية",
+      "description": "أكملها مقدمو الرعاية، آخر 6 أسابيع"
+    },
+    "recentActivity": {
+      "title": "النشاط الأخير",
+      "description": "عبر جميع المرضى"
+    }
+  },
+  "activity": {
+    "Milestone plan updated": "تم تحديث خطة المعالم",
+    "Rehabilitation goals set": "تم تعيين أهداف إعادة التأهيل",
+    "Today's exercise program completed": "تم إكمال برنامج التمارين اليوم",
+    "exercises assigned 2": "تم تعيين 2 تمارين",
+    "exercises assigned 1": "تم تعيين تمرين واحد"
+  }
+}

@@ -4,13 +4,17 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 
 import enCommon from './en/common.json';
 import arCommon from './ar/common.json';
+import enDashboard from './en/dashboard.json';
+import arDashboard from './ar/dashboard.json';
 
 const resources = {
   en: {
     common: enCommon,
+    dashboard: enDashboard,
   },
   ar: {
     common: arCommon,
+    dashboard: arDashboard,
   },
 };
 

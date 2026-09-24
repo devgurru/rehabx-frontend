@@ -21,13 +21,10 @@ import {
 } from '@/components/ui/card';
 import { formatDate, formatShortDate, todayIso } from '@/lib/format';
 import { useAppSelector } from '@/store/hooks';
-
-function greeting() {
-  const hour = new Date().getHours();
-  return hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
-}
+import { useTranslation } from 'react-i18next';
 
 export default function DashboardPage() {
+  const { t } = useTranslation('dashboard');
   const user = useAppSelector((s) => s.auth.user);
   const { data, isPending, error, refetch } = useDashboard();
 
@@ -35,16 +32,20 @@ export default function DashboardPage() {
   if (error) return <ErrorState error={error} onRetry={() => void refetch()} />;
 
   const { stats } = data;
+  
+  const hour = new Date().getHours();
+  const greetingKey = hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : 'evening';
+
   return (
     <div className="space-y-6">
       <PageHeader
         eyebrow={formatDate(todayIso())}
-        title={`${greeting()}, Dr. ${user?.firstName ?? ''}`}
-        description="Here is how your pediatric rehabilitation caseload is progressing."
+        title={t('greeting.title', { greeting: t(`greeting.${greetingKey}`), name: user?.firstName ?? '' })}
+        description={t('header.description')}
         actions={
           <Button asChild>
             <Link to="/patients">
-              <Users /> View patients
+              <Users /> {t('header.viewPatients')}
             </Link>
           </Button>
         }
@@ -52,37 +53,37 @@ export default function DashboardPage() {
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard
-          label="Total patients"
+          label={t('stats.totalPatients')}
           value={stats.totalPatients}
           icon={Users}
-          hint="Pediatric caseload"
+          hint={t('stats.pediatricCaseload')}
         />
         <StatCard
-          label="Active programs"
+          label={t('stats.activePrograms')}
           value={stats.activePrograms}
           icon={ClipboardList}
-          hint="Across 3 specialties"
+          hint={t('stats.acrossSpecialties')}
         />
         <StatCard
-          label="Requiring review"
+          label={t('stats.requiringReview')}
           value={stats.requiringReview}
           icon={Eye}
-          hint={stats.requiringReview ? 'Awaiting physician review' : 'All patients reviewed'}
+          hint={stats.requiringReview ? t('stats.awaitingReview') : t('stats.allReviewed')}
         />
         <StatCard
-          label="Average progress"
+          label={t('stats.averageProgress')}
           value={`${stats.averageProgress}%`}
           icon={TrendingUp}
-          hint="Patients in an active program"
+          hint={t('stats.patientsInProgram')}
         />
       </div>
 
       <div className="grid gap-4 lg:grid-cols-3">
         <Card className="lg:col-span-2">
           <CardHeader>
-            <CardTitle>KPI overview</CardTitle>
+            <CardTitle>{t('cards.kpi.title')}</CardTitle>
             <CardDescription>
-              Cohort average of general KPIs — baseline, current and target
+              {t('cards.kpi.description')}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -92,14 +93,14 @@ export default function DashboardPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Requires review</CardTitle>
-            <CardDescription>New assessments awaiting a care plan</CardDescription>
+            <CardTitle>{t('cards.requiresReview.title')}</CardTitle>
+            <CardDescription>{t('cards.requiresReview.description')}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
             {data.requiresReview.length === 0 ? (
               <EmptyState
-                title="All caught up"
-                description="Every assessed patient has an active care plan."
+                title={t('cards.requiresReview.allCaughtUp')}
+                description={t('cards.requiresReview.allCaughtUpDesc')}
               />
             ) : (
               data.requiresReview.map((p) => (
@@ -109,17 +110,17 @@ export default function DashboardPage() {
                     <div className="min-w-0">
                       <p className="truncate font-semibold">{p.fullName}</p>
                       <p className="text-muted-foreground truncate text-xs">
-                        {p.age} years · {p.diagnosis.name}
+                        {t('cards.requiresReview.years', { age: p.age })} · {p.diagnosis.name}
                       </p>
                     </div>
                   </div>
                   <p className="text-muted-foreground text-xs">
-                    Assessed {p.lastAssessmentAt ? formatShortDate(p.lastAssessmentAt) : '—'} ·
-                    recommended {p.specialty?.name ?? 'specialty pending'}
+                    {t('cards.requiresReview.assessed')} {p.lastAssessmentAt ? formatShortDate(p.lastAssessmentAt) : '—'} ·
+                    {' '}{t('cards.requiresReview.recommended')} {p.specialty?.name ?? t('cards.requiresReview.specialtyPending')}
                   </p>
                   <Button asChild size="sm" className="w-full">
                     <Link to={`/patients/${p.id}/care-plan`}>
-                      Start care plan <ArrowRight />
+                      {t('cards.requiresReview.startCarePlan')} <ArrowRight className={document.documentElement.dir === 'rtl' ? 'rotate-180' : ''} />
                     </Link>
                   </Button>
                 </div>
@@ -132,11 +133,11 @@ export default function DashboardPage() {
       <div className="grid gap-4 lg:grid-cols-3">
         <Card>
           <CardHeader>
-            <CardTitle>Patient progress</CardTitle>
-            <CardDescription>Overall rehabilitation progress</CardDescription>
+            <CardTitle>{t('cards.patientProgress.title')}</CardTitle>
+            <CardDescription>{t('cards.patientProgress.description')}</CardDescription>
             <CardAction>
               <Button asChild variant="ghost" size="sm">
-                <Link to="/patients">All</Link>
+                <Link to="/patients">{t('cards.patientProgress.all')}</Link>
               </Button>
             </CardAction>
           </CardHeader>
@@ -162,8 +163,8 @@ export default function DashboardPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Home exercise sessions</CardTitle>
-            <CardDescription>Completed by caregivers, last 6 weeks</CardDescription>
+            <CardTitle>{t('cards.homeExercise.title')}</CardTitle>
+            <CardDescription>{t('cards.homeExercise.description')}</CardDescription>
           </CardHeader>
           <CardContent>
             <AdherenceChart
@@ -177,8 +178,8 @@ export default function DashboardPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Recent activity</CardTitle>
-            <CardDescription>Across all patients</CardDescription>
+            <CardTitle>{t('cards.recentActivity.title')}</CardTitle>
+            <CardDescription>{t('cards.recentActivity.description')}</CardDescription>
           </CardHeader>
           <CardContent className="max-h-80 overflow-y-auto">
             <ActivityFeed events={data.recentActivity.slice(0, 8)} />

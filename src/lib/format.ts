@@ -16,17 +16,20 @@ export const formatShortDate = (value: string) => shortDateFmt.format(parseDate(
 export const formatTime = (value: string) => timeFmt.format(parseDate(value));
 export const formatPercent = (value: number) => `${Math.round(value)}%`;
 
-export function formatRelative(value: string): string {
+export function formatRelative(value: string, locale: string = 'en'): string {
   const diffMs = Date.now() - parseDate(value).getTime();
   const minutes = Math.round(diffMs / 60_000);
-  if (minutes < 1) return 'just now';
-  if (minutes < 60) return `${minutes} min ago`;
+  
+  const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
+  
+  if (minutes < 1) return locale.startsWith('ar') ? 'الآن' : 'just now';
+  if (minutes < 60) return rtf.format(-minutes, 'minute');
   const hours = Math.round(minutes / 60);
-  if (hours < 24) return `${hours} h ago`;
+  if (hours < 24) return rtf.format(-hours, 'hour');
   const days = Math.round(hours / 24);
-  if (days === 1) return 'yesterday';
-  if (days < 7) return `${days} days ago`;
-  return formatShortDate(value);
+  if (days < 7) return rtf.format(-days, 'day');
+  
+  return new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'short' }).format(parseDate(value));
 }
 
 export function todayIso(): string {
