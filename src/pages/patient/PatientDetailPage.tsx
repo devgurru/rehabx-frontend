@@ -30,7 +30,7 @@ const TABS = [
 import { useTranslation } from 'react-i18next';
 
 export default function PatientDetailPage() {
-  const { t } = useTranslation('patientDetail');
+  const { t, i18n } = useTranslation('patientDetail');
   const { id = '' } = useParams();
   const [params, setParams] = useSearchParams();
   const tab = TABS.some((t) => t.value === params.get('tab')) ? params.get('tab')! : 'overview';
@@ -79,7 +79,7 @@ export default function PatientDetailPage() {
         </div>
       </div>
 
-      <Tabs value={tab} onValueChange={(value) => setParams({ tab: value }, { replace: true })}>
+      <Tabs dir={i18n.dir()} value={tab} onValueChange={(value) => setParams({ tab: value }, { replace: true })}>
         <div className="-mx-4 overflow-x-auto px-4 md:mx-0 md:px-0">
           <TabsList>
             {TABS.map((tabInfo) => (

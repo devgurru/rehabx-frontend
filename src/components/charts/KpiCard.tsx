@@ -9,16 +9,19 @@ const categoryLabel = {
   DIAGNOSIS: 'Diagnosis',
 } as const;
 
+import { useTranslation } from 'react-i18next';
+
 /** Baseline → current → target for one KPI, with a track that shows all three positions. */
 export function KpiCard({ kpi }: { kpi: PatientKpi }) {
+  const { t } = useTranslation('kpis');
   const { baseline, current, target } = kpi;
   return (
     <Card className="gap-0 py-0">
       <CardContent className="space-y-4 p-5">
         <div className="flex items-start justify-between gap-2">
           <div>
-            <p className="font-semibold">{kpi.kpi.name}</p>
-            <p className="text-muted-foreground text-xs">{categoryLabel[kpi.kpi.category]} KPI</p>
+            <p className="font-semibold">{t(kpi.kpi.name)}</p>
+            <p className="text-muted-foreground text-xs">{t(categoryLabel[kpi.kpi.category])} KPI</p>
           </div>
           <span className="bg-success-soft text-success inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold">
             <TrendingUp className="size-3" aria-hidden />+{Math.round(kpi.change)}

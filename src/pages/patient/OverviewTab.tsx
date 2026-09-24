@@ -74,7 +74,7 @@ export function OverviewTab({ patient }: { patient: PatientDetail }) {
               <p className="text-muted-foreground flex items-center gap-1.5 text-xs font-medium">
                 <Flag className="size-3.5" aria-hidden /> {t('overview.nextMilestone', { week: patient.nextMilestone.targetWeek })}
               </p>
-              <p className="font-semibold">{patient.nextMilestone.title}</p>
+              <p className="font-semibold">{t(patient.nextMilestone.title)}</p>
               <MilestoneStatusBadge status={patient.nextMilestone.status} />
             </div>
           )}
@@ -90,7 +90,7 @@ export function OverviewTab({ patient }: { patient: PatientDetail }) {
           {kpis?.map((k) => (
             <div key={k.id} className="space-y-1.5">
               <div className="flex justify-between text-sm">
-                <span className="font-medium">{k.kpi.name}</span>
+                <span className="font-medium">{t(k.kpi.name)}</span>
                 <span className="tabular text-muted-foreground text-xs">
                   {Math.round(k.baseline)}% →{' '}
                   <span className="text-foreground font-semibold">{Math.round(k.current)}%</span> ·{' '}
@@ -112,7 +112,7 @@ export function OverviewTab({ patient }: { patient: PatientDetail }) {
             <Stethoscope className="text-primary mt-0.5 size-4" aria-hidden />
             <div>
               <p className="font-medium">{patient.clinician.name}</p>
-              <p className="text-muted-foreground text-xs">{patient.clinician.title}</p>
+              <p className="text-muted-foreground text-xs">{t(patient.clinician.title)}</p>
             </div>
           </div>
           <div className="flex gap-3">
@@ -120,7 +120,7 @@ export function OverviewTab({ patient }: { patient: PatientDetail }) {
             <div>
               <p className="font-medium">{patient.caregiver.name}</p>
               <p className="text-muted-foreground text-xs">
-                {patient.caregiver.relationship} · {t('overview.caregiverApp')}
+                {t(patient.caregiver.relationship)} · {t('overview.caregiverApp')}
               </p>
             </div>
           </div>
@@ -128,7 +128,7 @@ export function OverviewTab({ patient }: { patient: PatientDetail }) {
             <div className="flex gap-3">
               <CalendarDays className="text-primary mt-0.5 size-4" aria-hidden />
               <div>
-                <p className="font-medium">{patient.program.name}</p>
+                <p className="font-medium">{t(patient.program.name)}</p>
                 <p className="text-muted-foreground text-xs">
                   {t('overview.started', { 
                     date: formatDate(patient.program.startDate),

@@ -65,7 +65,7 @@ export function MilestonesTab({ patientId }: { patientId: string }) {
                 {!isLast && (
                   <span
                     className={cn(
-                      'absolute top-9 left-[17px] h-[calc(100%-12px)] w-0.5',
+                      'absolute top-9 start-[17px] h-[calc(100%-12px)] w-0.5',
                       m.status === 'ACHIEVED' ? 'bg-success/40' : 'bg-border',
                     )}
                     aria-hidden
@@ -84,16 +84,16 @@ export function MilestonesTab({ patientId }: { patientId: string }) {
                 </span>
                 <div className="flex flex-1 flex-col gap-2 rounded-xl border p-4 sm:flex-row sm:items-center sm:justify-between">
                   <div className="space-y-1">
-                    <p className="text-muted-foreground text-xs font-medium">
+                    <p className="text-muted-foreground text-xs font-medium" dir="auto">
                       {t('milestonesTab.week', { week: m.targetWeek })}
                       {m.targetDate && ` · ${formatDate(m.targetDate)}`}
                     </p>
-                    <p className="font-semibold">{m.title}</p>
+                    <p className="font-semibold" dir="auto">{t(m.title)}</p>
                     {m.description && (
-                      <p className="text-muted-foreground text-sm">{m.description}</p>
+                      <p className="text-muted-foreground text-sm" dir="auto">{t(m.description)}</p>
                     )}
                     {m.achievedAt && (
-                      <p className="text-success text-xs">{t('milestonesTab.achievedAt', { date: formatDate(m.achievedAt) })}</p>
+                      <p className="text-success text-xs" dir="auto">{t('milestonesTab.achievedAt', { date: formatDate(m.achievedAt) })}</p>
                     )}
                   </div>
                   <div className="flex items-center gap-2">

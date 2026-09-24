@@ -63,6 +63,7 @@ i18n
     },
 
     defaultNS: 'common',
+    fallbackNS: ['common', 'dashboard', 'patients', 'patientDetail', 'carePlan', 'programs', 'referrals', 'kpis', 'reports'],
 
     interpolation: {
       escapeValue: false, 

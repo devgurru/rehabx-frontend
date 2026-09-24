@@ -42,7 +42,7 @@ export function PlanTab({ patientId }: { patientId: string }) {
           ) : (
             <div className="space-y-6">
               <div className="flex flex-wrap items-center gap-3">
-                <p className="text-xl font-semibold">{program.data.name}</p>
+                <p className="text-xl font-semibold">{t(program.data.name)}</p>
                 <SpecialtyBadge specialty={program.data.specialty} />
               </div>
               <dl className="grid gap-4 sm:grid-cols-4">
@@ -66,7 +66,7 @@ export function PlanTab({ patientId }: { patientId: string }) {
                       key={e.id}
                       className="flex flex-wrap items-center justify-between gap-2 p-3 text-sm"
                     >
-                      <span className="font-medium">{e.name}</span>
+                      <span className="font-medium">{t(e.name)}</span>
                       <span className="text-muted-foreground">
                         {e.reps ? `${t('plan.reps', { reps: e.reps })} · ` : ''}
                         {t('plan.min', { min: e.durationMin })} · {t('plan.perWeek', { times: e.frequencyPerWeek })}
@@ -93,7 +93,7 @@ export function PlanTab({ patientId }: { patientId: string }) {
               goals.data.map((g) => (
                 <div key={g.id} className="space-y-1.5">
                   <div className="flex items-center justify-between gap-2 text-sm">
-                    <span className="font-medium">{g.title}</span>
+                    <span className="font-medium">{t(g.title)}</span>
                     {g.status === 'ACHIEVED' && (
                       <Badge className="bg-success-soft text-success">{t('plan.achieved')}</Badge>
                     )}
@@ -121,7 +121,7 @@ export function PlanTab({ patientId }: { patientId: string }) {
                     <SpecialtyBadge specialty={r.specialty} />
                     <span className="text-muted-foreground text-xs">{formatDate(r.createdAt)}</span>
                   </div>
-                  <p className="text-muted-foreground">{r.reason}</p>
+                  <p className="text-muted-foreground">{t(r.reason)}</p>
                 </div>
               ))
             ) : (

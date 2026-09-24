@@ -34,7 +34,7 @@ export function AssessmentView({
             return (
               <div key={d.key} className="space-y-1.5">
                 <div className="flex items-baseline justify-between gap-3">
-                  <span className="text-sm font-medium">{d.label}</span>
+                  <span className="text-sm font-medium">{t(d.label)}</span>
                   {base?.score != null && d.score != null && (
                     <span className="text-muted-foreground text-xs">{t('assessment.baseline')} {base.score}%</span>
                   )}
@@ -44,7 +44,7 @@ export function AssessmentView({
                 ) : (
                   <ProgressBar value={d.score} />
                 )}
-                {d.notes && <p className="text-muted-foreground text-xs">{d.notes}</p>}
+                {d.notes && <p className="text-muted-foreground text-xs">{t(d.notes)}</p>}
               </div>
             );
           })}
@@ -62,11 +62,11 @@ export function AssessmentView({
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4 text-sm">
-            <p>{assessment.summary ?? '—'}</p>
+            <p>{assessment.summary ? t(assessment.summary) : '—'}</p>
             {assessment.currentAbilities && (
               <div>
                 <p className="text-muted-foreground mb-1 text-xs font-medium">{t('assessment.currentAbilities')}</p>
-                <p>{assessment.currentAbilities}</p>
+                <p>{t(assessment.currentAbilities)}</p>
               </div>
             )}
             <div>
@@ -86,13 +86,13 @@ export function AssessmentView({
           <CardContent className="space-y-3 text-sm">
             <div>
               <p className="text-muted-foreground mb-1 text-xs font-medium">{t('assessment.riskNotes')}</p>
-              <p>{assessment.riskNotes ?? t('assessment.noneRecorded')}</p>
+              <p>{assessment.riskNotes ? t(assessment.riskNotes) : t('assessment.noneRecorded')}</p>
             </div>
             <div>
               <p className="text-muted-foreground mb-1 flex items-center gap-1 text-xs font-medium">
                 <Lightbulb className="size-3" aria-hidden /> {t('assessment.clinicalConcerns')}
               </p>
-              <p>{assessment.clinicalConcerns ?? t('assessment.noneRecorded')}</p>
+              <p>{assessment.clinicalConcerns ? t(assessment.clinicalConcerns) : t('assessment.noneRecorded')}</p>
             </div>
           </CardContent>
         </Card>

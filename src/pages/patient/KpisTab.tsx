@@ -32,7 +32,7 @@ export function KpisTab({ patientId }: { patientId: string }) {
           <CardContent>
             <KpiComparisonChart
               data={data.map((k) => ({
-                name: k.kpi.name,
+                name: t(k.kpi.name),
                 baseline: k.baseline,
                 current: k.current,
                 target: k.target,

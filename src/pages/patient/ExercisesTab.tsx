@@ -35,7 +35,7 @@ export function ExercisesTab({ patientId }: { patientId: string }) {
             <CardHeader>
               <div className="flex items-start justify-between gap-2">
                 <div>
-                  <CardTitle>{item.exercise.name}</CardTitle>
+                  <CardTitle>{t(item.exercise.name)}</CardTitle>
                   <CardDescription>
                     {item.reps ? `${t('exercises.repetitions', { reps: item.reps })} · ` : ''}
                     {t('exercises.minutes', { min: item.durationMin })} · {t('exercises.perWeek', { times: item.frequencyPerWeek })}
@@ -46,19 +46,27 @@ export function ExercisesTab({ patientId }: { patientId: string }) {
             </CardHeader>
             <CardContent className="grid gap-4 sm:grid-cols-2">
               <LazyExercisePreview motionKey={item.exercise.motionKey} className="h-56" />
-              <div className="space-y-3 text-sm">
-                <ol className="list-decimal space-y-1.5 pl-4">
-                  {item.exercise.instructions.map((step) => (
-                    <li key={step}>{step}</li>
+              <div className="space-y-4 text-sm">
+                <ol className="space-y-2">
+                  {item.exercise.instructions.map((step, i) => (
+                    <li key={step} className="text-muted-foreground flex items-start gap-2" dir="auto">
+                      <span className="bg-muted text-foreground flex size-5 shrink-0 items-center justify-center rounded-full text-xs font-semibold">
+                        {i + 1}
+                      </span>
+                      <span>{t(step)}</span>
+                    </li>
                   ))}
                 </ol>
                 <div className="bg-warning-soft/60 rounded-lg p-3 text-xs">
-                  <p className="text-warning mb-1 flex items-center gap-1 font-semibold">
+                  <p className="text-warning mb-2 flex items-center gap-1.5 font-semibold">
                     <ShieldAlert className="size-3.5" aria-hidden /> {t('exercises.safety')}
                   </p>
-                  <ul className="space-y-0.5">
+                  <ul className="text-muted-foreground space-y-1.5">
                     {item.exercise.safetyNotes.map((note) => (
-                      <li key={note}>{note}</li>
+                      <li key={note} className="flex items-start gap-2" dir="auto">
+                        <span className="bg-warning/40 mt-1.5 size-1.5 shrink-0 rounded-full" aria-hidden />
+                        <span>{t(note)}</span>
+                      </li>
                     ))}
                   </ul>
                 </div>

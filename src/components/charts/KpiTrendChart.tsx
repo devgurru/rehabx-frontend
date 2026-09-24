@@ -10,12 +10,14 @@ import {
 } from '@/components/ui/chart';
 import { formatShortDate } from '@/lib/format';
 import type { PatientKpi } from '@/lib/types';
+import { useTranslation } from 'react-i18next';
 
 /** Categorical slots in fixed, validated order — colour follows the KPI's position, never its rank. */
 const SERIES = ['var(--chart-1)', 'var(--chart-2)', 'var(--chart-3)', 'var(--chart-4)'];
 
 /** KPI trends over time on one 0–100 axis. More than four KPIs are split into small multiples by callers. */
 export function KpiTrendChart({ kpis, className }: { kpis: PatientKpi[]; className?: string }) {
+  const { t } = useTranslation('kpis');
   const series = kpis.slice(0, SERIES.length);
 
   const { data, config } = useMemo(() => {
@@ -29,7 +31,7 @@ export function KpiTrendChart({ kpis, className }: { kpis: PatientKpi[]; classNa
       }
     }
     const cfg: ChartConfig = {};
-    series.forEach((k, i) => (cfg[k.kpi.code] = { label: k.kpi.name, color: SERIES[i] }));
+    series.forEach((k, i) => (cfg[k.kpi.code] = { label: t(k.kpi.name), color: SERIES[i] }));
     return {
       data: [...byDay.values()].sort((a, b) => String(a.day).localeCompare(String(b.day))),
       config: cfg,
