@@ -1,0 +1,13 @@
+{
+  "title": "Specialty referrals",
+  "description": "Physician-led referrals to Physiotherapy, Occupational Therapy and Speech & Language Therapy.",
+  "emptyTitle": "No referrals yet",
+  "patient": "Patient",
+  "specialty": "Specialty",
+  "reason": "Reason",
+  "referredBy": "Referred by",
+  "date": "Date",
+  "status": "Status",
+  "statusAccepted": "Accepted",
+  "statusPending": "Pending"
+}
