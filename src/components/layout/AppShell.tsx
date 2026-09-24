@@ -71,8 +71,8 @@ export function AppShell() {
   return (
     <SidebarProvider>
       <Sidebar collapsible="icon" side={i18n.dir() === 'rtl' ? 'right' : 'left'}>
-        <SidebarHeader className="px-3 pt-4">
-          <NavLink to="/" className="flex items-center gap-2 px-1" aria-label="RehabX home">
+        <SidebarHeader className="px-3 pt-4 group-data-[collapsible=icon]:px-0">
+          <NavLink to="/" className="flex items-center gap-2 px-1 group-data-[collapsible=icon]:justify-center" aria-label="RehabX home">
             <Logo className="group-data-[collapsible=icon]:hidden" />
             <Logo
               showWordmark={false}
