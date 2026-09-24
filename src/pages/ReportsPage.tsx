@@ -13,61 +13,63 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-
-const ROADMAP = [
-  {
-    title: 'Additional pathways',
-    text: 'Neurological, stroke and orthopedic rehabilitation as configured specialties.',
-  },
-  {
-    title: 'Real motion tracking',
-    text: 'Computer-vision rep counting and form feedback replacing the simulated coach.',
-  },
-  {
-    title: 'Integrations',
-    text: 'EMR/HIS, national health platforms and insurance — out of prototype scope.',
-  },
-  {
-    title: 'Scheduling & telehealth',
-    text: 'Therapist matching, appointments and video sessions.',
-  },
-];
+import { useTranslation } from 'react-i18next';
 
 export default function ReportsPage() {
+  const { t } = useTranslation('reports');
   const { data, isPending, error, refetch } = usePlatformStats();
+
+  const ROADMAP = [
+    {
+      title: t('roadmap1Title'),
+      text: t('roadmap1Text'),
+    },
+    {
+      title: t('roadmap2Title'),
+      text: t('roadmap2Text'),
+    },
+    {
+      title: t('roadmap3Title'),
+      text: t('roadmap3Text'),
+    },
+    {
+      title: t('roadmap4Title'),
+      text: t('roadmap4Text'),
+    },
+  ];
   if (isPending) return <PageSkeleton />;
   if (error) return <ErrorState error={error} onRetry={() => void refetch()} />;
 
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Reports & platform"
-        description="Platform statistics and the configuration that makes RehabX multi-specialty."
-        actions={<Badge variant="outline">Administration preview</Badge>}
+        title={t('title')}
+        description={t('description')}
+        actions={<Badge variant="outline">{t('adminPreview')}</Badge>}
       />
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         <StatCard
-          label="Specialties"
+          label={t('statSpecialties')}
           value={data.totals.specialties}
           icon={Building2}
-          hint="Configured as data"
+          hint={t('hintSpecialties')}
         />
         <StatCard
-          label="Outcome KPIs"
+          label={t('statKpis')}
           value={data.totals.kpis}
           icon={Gauge}
-          hint="General, specialty & diagnosis"
+          hint={t('hintKpis')}
         />
         <StatCard
-          label="Exercise library"
+          label={t('statExercises')}
           value={data.totals.exercises}
           icon={Dumbbell}
-          hint="3 with AI / 3D guides"
+          hint={t('hintExercises')}
         />
-        <StatCard label="Programs" value={data.totals.programs} icon={ClipboardList} />
-        <StatCard label="Referrals" value={data.totals.referrals} icon={Send} />
+        <StatCard label={t('statPrograms')} value={data.totals.programs} icon={ClipboardList} />
+        <StatCard label={t('statReferrals')} value={data.totals.referrals} icon={Send} />
         <StatCard
-          label="Home sessions completed"
+          label={t('statSessions')}
           value={data.totals.completedSessions}
           icon={Layers}
         />
@@ -76,25 +78,25 @@ export default function ReportsPage() {
       <div className="grid gap-4 lg:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle>Specialties</CardTitle>
+            <CardTitle>{t('statSpecialties')}</CardTitle>
             <CardDescription>
-              Each pathway is a database entity with its own exercises, KPIs and milestones
+              {t('cardSpecialtiesDesc')}
             </CardDescription>
           </CardHeader>
           <CardContent className="px-0">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="pl-6">Specialty</TableHead>
-                  <TableHead className="text-right">Exercises</TableHead>
-                  <TableHead className="pr-6 text-right">Programs</TableHead>
+                  <TableHead className="pl-6">{t('tableSpecialty')}</TableHead>
+                  <TableHead className="text-right">{t('tableExercises')}</TableHead>
+                  <TableHead className="pr-6 text-right">{t('tablePrograms')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {data.specialties.map((s) => (
                   <TableRow key={s.id}>
                     <TableCell className="pl-6">
-                      <span className="flex items-center gap-2 font-medium">
+                      <span className="flex items-center gap-2 font-medium" dir="auto">
                         <span
                           className="size-2 rounded-full"
                           style={{ backgroundColor: s.color }}
@@ -114,9 +116,9 @@ export default function ReportsPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Product roadmap</CardTitle>
+            <CardTitle>{t('roadmapTitle')}</CardTitle>
             <CardDescription>
-              Designed for, but intentionally not built in, the prototype
+              {t('roadmapDesc')}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
