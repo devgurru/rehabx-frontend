@@ -1,0 +1,33 @@
+{
+  "header": {
+    "title": "المرضى",
+    "description": "الأطفال تحت رعايتك، وتخصصهم في إعادة التأهيل والتقدم العام."
+  },
+  "filters": {
+    "searchPlaceholder": "البحث بالاسم أو التشخيص",
+    "searchAria": "بحث في المرضى",
+    "specialtyAria": "تصفية حسب التخصص",
+    "allSpecialties": "جميع التخصصات",
+    "statusAria": "تصفية حسب الحالة",
+    "allStatuses": "جميع الحالات",
+    "clear": "مسح"
+  },
+  "table": {
+    "patient": "المريض",
+    "age": "العمر",
+    "diagnosis": "التشخيص",
+    "specialty": "التخصص",
+    "progress": "التقدم",
+    "status": "الحالة",
+    "lastAssessment": "آخر تقييم",
+    "boy": "ولد",
+    "girl": "بنت",
+    "notStarted": "لم يبدأ",
+    "openPatient": "فتح {{name}}"
+  },
+  "empty": {
+    "title": "لا يوجد مرضى يطابقون عوامل التصفية الخاصة بك",
+    "description": "جرب اسمًا أو تشخيصًا أو تخصصًا مختلفًا.",
+    "clearFilters": "مسح عوامل التصفية"
+  }
+}

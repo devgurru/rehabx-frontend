@@ -12,8 +12,10 @@ import type { Exercise, ExerciseAssignmentInput } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { StepFooter } from './StepFooter';
 import { type StepProps, useCarePlan } from './useCarePlan';
+import { useTranslation } from 'react-i18next';
 
 export function ExercisesStep({ patientId, onComplete }: StepProps) {
+  const { t } = useTranslation('carePlan');
   const program = useProgram(patientId);
   const library = useExerciseLibrary(program.data?.specialty.id);
   const { draft, update } = useCarePlan(patientId);
@@ -25,8 +27,8 @@ export function ExercisesStep({ patientId, onComplete }: StepProps) {
   if (!program.data)
     return (
       <EmptyState
-        title="Create the program first"
-        description="Exercises are assigned to an active rehabilitation program."
+        title={t('exercises.createFirst')}
+        description={t('exercises.createFirstDesc')}
       />
     );
 
@@ -73,7 +75,7 @@ export function ExercisesStep({ patientId, onComplete }: StepProps) {
   const submit = () =>
     assign.mutate(selected, {
       onSuccess: () => {
-        toast.success(`${selected.length} exercises assigned`);
+        toast.success(t('exercises.assignedSuccess', { count: selected.length }));
         onComplete();
       },
       onError: (e) => toast.error(e.message),
@@ -105,7 +107,7 @@ export function ExercisesStep({ patientId, onComplete }: StepProps) {
       <div className="grid gap-6 xl:grid-cols-[1fr_22rem]">
         <div className="space-y-3">
           <p className="text-muted-foreground text-sm">
-            {program.data.specialty.name} exercise library · {selected.length} selected
+            {t('exercises.library', { specialty: program.data.specialty.name, count: selected.length })}
           </p>
           {exercises.map((exercise) => {
             const assignment = selected.find((s) => s.exerciseId === exercise.id);
@@ -133,14 +135,14 @@ export function ExercisesStep({ patientId, onComplete }: StepProps) {
                       {exercise.name}
                       {exercise.motionKey && (
                         <Badge variant="outline" className="text-primary gap-1 font-medium">
-                          <Box aria-hidden /> 3D guide
+                          <Box aria-hidden /> {t('exercises.guide')}
                         </Badge>
                       )}
                     </Label>
                     <p className="text-muted-foreground text-sm">{exercise.description}</p>
                     {exercise.targetKpi && (
                       <p className="text-muted-foreground text-xs">
-                        Improves {exercise.targetKpi.name}
+                        {t('exercises.improves', { name: exercise.targetKpi.name })}
                       </p>
                     )}
                   </div>
@@ -148,28 +150,28 @@ export function ExercisesStep({ patientId, onComplete }: StepProps) {
                 {assignment && (
                   <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-3 pl-7 text-sm">
                     <label className="flex items-center gap-2">
-                      <span className="text-muted-foreground">Reps</span>
+                      <span className="text-muted-foreground">{t('exercises.reps')}</span>
                       {numberField(
                         assignment.reps,
                         (v) => patch(exercise.id, { reps: v }),
-                        `${exercise.name} repetitions`,
+                        t('exercises.repsPlaceholder', { name: exercise.name }),
                         true,
                       )}
                     </label>
                     <label className="flex items-center gap-2">
-                      <span className="text-muted-foreground">Minutes</span>
+                      <span className="text-muted-foreground">{t('exercises.minutes')}</span>
                       {numberField(
                         assignment.durationMin,
                         (v) => patch(exercise.id, { durationMin: v ?? 1 }),
-                        `${exercise.name} minutes`,
+                        t('exercises.minutesPlaceholder', { name: exercise.name }),
                       )}
                     </label>
                     <label className="flex items-center gap-2">
-                      <span className="text-muted-foreground">Per week</span>
+                      <span className="text-muted-foreground">{t('exercises.perWeek')}</span>
                       {numberField(
                         assignment.frequencyPerWeek,
                         (v) => patch(exercise.id, { frequencyPerWeek: v ?? 1 }),
-                        `${exercise.name} sessions per week`,
+                        t('exercises.perWeekPlaceholder', { name: exercise.name }),
                       )}
                     </label>
                   </div>
@@ -180,7 +182,7 @@ export function ExercisesStep({ patientId, onComplete }: StepProps) {
         </div>
 
         <aside className="space-y-3 xl:sticky xl:top-20 xl:self-start">
-          <p className="text-sm font-semibold">Caregiver preview</p>
+          <p className="text-sm font-semibold">{t('exercises.preview')}</p>
           <LazyExercisePreview motionKey={preview?.motionKey ?? null} className="h-80" />
           {preview && (
             <div className="space-y-2 text-sm">
@@ -201,14 +203,13 @@ export function ExercisesStep({ patientId, onComplete }: StepProps) {
       </div>
 
       <StepFooter
-        primaryLabel={`Assign ${selected.length} exercise${selected.length === 1 ? '' : 's'}`}
+        primaryLabel={selected.length === 1 ? t('exercises.assign', { count: selected.length }) : t('exercises.assignPlural', { count: selected.length })}
         onPrimary={submit}
         pending={assign.isPending}
         disabled={selected.length === 0}
         hint={
           <span className="inline-flex items-center gap-1">
-            <Check className="size-3.5" aria-hidden /> Assigned exercises appear instantly in the
-            caregiver app.
+            <Check className="size-3.5" aria-hidden /> {t('exercises.hint')}
           </span>
         }
       />

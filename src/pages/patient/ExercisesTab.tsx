@@ -5,27 +5,29 @@ import { ExerciseStatusBadge } from '@/components/shared/badges';
 import { CardSkeleton, EmptyState, ErrorState } from '@/components/shared/states';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { formatTime } from '@/lib/format';
+import { useTranslation } from 'react-i18next';
 
 export function ExercisesTab({ patientId }: { patientId: string }) {
+  const { t } = useTranslation('patientDetail');
   const { data, isPending, error, refetch } = useTodayExercises(patientId);
   if (isPending) return <CardSkeleton className="h-96" />;
   if (error) return <ErrorState error={error} onRetry={() => void refetch()} />;
   if (!data.items.length)
     return (
       <EmptyState
-        title="No exercises assigned"
-        description="Assign exercises from the care plan."
+        title={t('exercises.noExercises')}
+        description={t('exercises.assignDesc')}
       />
     );
 
   return (
     <div className="space-y-4">
       <p className="text-muted-foreground text-sm">
-        Today’s home program:{' '}
+        {t('exercises.todayProgram')}:{' '}
         <span className="text-foreground font-semibold">
-          {data.completed} of {data.total}
+          {t('exercises.completed', { completed: data.completed, total: data.total })}
         </span>{' '}
-        completed. Status updates live as the caregiver completes exercises in the mobile app.
+        {t('exercises.statusUpdates')}
       </p>
       <div className="grid gap-4 xl:grid-cols-2">
         {data.items.map((item) => (
@@ -35,8 +37,8 @@ export function ExercisesTab({ patientId }: { patientId: string }) {
                 <div>
                   <CardTitle>{item.exercise.name}</CardTitle>
                   <CardDescription>
-                    {item.reps ? `${item.reps} repetitions · ` : ''}
-                    {item.durationMin} minutes · {item.frequencyPerWeek}× per week
+                    {item.reps ? `${t('exercises.repetitions', { reps: item.reps })} · ` : ''}
+                    {t('exercises.minutes', { min: item.durationMin })} · {t('exercises.perWeek', { times: item.frequencyPerWeek })}
                   </CardDescription>
                 </div>
                 <ExerciseStatusBadge status={item.status} />
@@ -52,7 +54,7 @@ export function ExercisesTab({ patientId }: { patientId: string }) {
                 </ol>
                 <div className="bg-warning-soft/60 rounded-lg p-3 text-xs">
                   <p className="text-warning mb-1 flex items-center gap-1 font-semibold">
-                    <ShieldAlert className="size-3.5" aria-hidden /> Safety
+                    <ShieldAlert className="size-3.5" aria-hidden /> {t('exercises.safety')}
                   </p>
                   <ul className="space-y-0.5">
                     {item.exercise.safetyNotes.map((note) => (
@@ -61,8 +63,8 @@ export function ExercisesTab({ patientId }: { patientId: string }) {
                   </ul>
                 </div>
                 <p className="text-muted-foreground text-xs">
-                  {item.totalCompleted} sessions completed in total
-                  {item.completedAt && ` · today at ${formatTime(item.completedAt)}`}
+                  {t('exercises.sessionsTotal', { total: item.totalCompleted })}
+                  {item.completedAt && ` · ${t('exercises.todayAt', { time: formatTime(item.completedAt) })}`}
                 </p>
               </div>
             </CardContent>

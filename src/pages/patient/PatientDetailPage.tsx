@@ -17,17 +17,20 @@ import { ProgressTab } from './ProgressTab';
 import { TimelineTab } from './TimelineTab';
 
 const TABS = [
-  { value: 'overview', label: 'Overview' },
-  { value: 'assessment', label: 'Assessment' },
-  { value: 'plan', label: 'Rehabilitation plan' },
-  { value: 'exercises', label: 'Exercises' },
-  { value: 'kpis', label: 'KPIs' },
-  { value: 'progress', label: 'Progress' },
-  { value: 'milestones', label: 'Milestones' },
-  { value: 'timeline', label: 'Timeline' },
+  { value: 'overview', i18nKey: 'overview' },
+  { value: 'assessment', i18nKey: 'assessment' },
+  { value: 'plan', i18nKey: 'plan' },
+  { value: 'exercises', i18nKey: 'exercises' },
+  { value: 'kpis', i18nKey: 'kpis' },
+  { value: 'progress', i18nKey: 'progress' },
+  { value: 'milestones', i18nKey: 'milestones' },
+  { value: 'timeline', i18nKey: 'timeline' },
 ] as const;
 
+import { useTranslation } from 'react-i18next';
+
 export default function PatientDetailPage() {
+  const { t } = useTranslation('patientDetail');
   const { id = '' } = useParams();
   const [params, setParams] = useSearchParams();
   const tab = TABS.some((t) => t.value === params.get('tab')) ? params.get('tab')! : 'overview';
@@ -38,9 +41,9 @@ export default function PatientDetailPage() {
 
   return (
     <div className="space-y-6">
-      <Button asChild variant="ghost" size="sm" className="text-muted-foreground -ml-2">
+      <Button asChild variant="ghost" size="sm" className="text-muted-foreground -ms-2">
         <Link to="/patients">
-          <ArrowLeft /> Patients
+          <ArrowLeft className="rtl:rotate-180" /> {t('backToPatients')}
         </Link>
       </Button>
 
@@ -52,14 +55,14 @@ export default function PatientDetailPage() {
             <PatientStatusBadge status={patient.status} />
           </div>
           <p className="text-muted-foreground text-sm">
-            {patient.age} years · {patient.gender === 'MALE' ? 'Male' : 'Female'} ·{' '}
+            {t('years', { count: patient.age })} · {patient.gender === 'MALE' ? t('male') : t('female')} ·{' '}
             <span className="text-foreground font-medium">{patient.diagnosis.name}</span>
           </p>
           <div className="flex flex-wrap items-center gap-2">
             <SpecialtyBadge specialty={patient.specialty} />
             {patient.program && (
               <span className="text-muted-foreground text-xs">
-                Week {patient.program.currentWeek} of {patient.program.durationWeeks}
+                {t('weekOf', { current: patient.program.currentWeek, total: patient.program.durationWeeks })}
               </span>
             )}
           </div>
@@ -70,7 +73,7 @@ export default function PatientDetailPage() {
           )}
           <Button asChild size="lg">
             <Link to={`/patients/${patient.id}/care-plan`}>
-              <ClipboardPen /> {patient.requiresReview ? 'Start care plan' : 'Care plan'}
+              <ClipboardPen /> {patient.requiresReview ? t('startCarePlan') : t('carePlan')}
             </Link>
           </Button>
         </div>
@@ -79,9 +82,9 @@ export default function PatientDetailPage() {
       <Tabs value={tab} onValueChange={(value) => setParams({ tab: value }, { replace: true })}>
         <div className="-mx-4 overflow-x-auto px-4 md:mx-0 md:px-0">
           <TabsList>
-            {TABS.map((t) => (
-              <TabsTrigger key={t.value} value={t.value}>
-                {t.label}
+            {TABS.map((tabInfo) => (
+              <TabsTrigger key={tabInfo.value} value={tabInfo.value}>
+                {t(`tabs.${tabInfo.i18nKey}`)}
               </TabsTrigger>
             ))}
           </TabsList>

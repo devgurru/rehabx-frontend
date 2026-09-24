@@ -12,5 +12,24 @@
     "signOut": "تسجيل الخروج",
     "clinicName": "إعادة تأهيل الأطفال · عيادة الرياض التجريبية",
     "demoEnvironment": "بيئة تجريبية"
+  },
+  "status": {
+    "NEW": "جديد",
+    "UNDER_REVIEW": "يتطلب مراجعة",
+    "ACTIVE": "نشط",
+    "COMPLETED": "مكتمل"
+  },
+  "specialty": {
+    "notAssigned": "غير معين"
+  },
+  "milestoneStatus": {
+    "ACHIEVED": "تحقق",
+    "IN_PROGRESS": "قيد التقدم",
+    "PENDING": "القادمة"
+  },
+  "exerciseStatus": {
+    "COMPLETED": "مكتمل",
+    "IN_PROGRESS": "قيد التقدم",
+    "NOT_STARTED": "لم يبدأ"
   }
 }

@@ -12,5 +12,24 @@
     "signOut": "Sign out",
     "clinicName": "Pediatric Rehabilitation · Riyadh Demo Clinic",
     "demoEnvironment": "Demo environment"
+  },
+  "status": {
+    "NEW": "New",
+    "UNDER_REVIEW": "Requires review",
+    "ACTIVE": "Active",
+    "COMPLETED": "Completed"
+  },
+  "specialty": {
+    "notAssigned": "Not assigned"
+  },
+  "milestoneStatus": {
+    "ACHIEVED": "Achieved",
+    "IN_PROGRESS": "In progress",
+    "PENDING": "Upcoming"
+  },
+  "exerciseStatus": {
+    "COMPLETED": "Completed",
+    "IN_PROGRESS": "In progress",
+    "NOT_STARTED": "Not started"
   }
 }

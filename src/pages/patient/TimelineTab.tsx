@@ -4,18 +4,20 @@ import { timelineIcon } from '@/components/shared/timeline-icons';
 import { CardSkeleton, EmptyState, ErrorState } from '@/components/shared/states';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { formatShortDate, formatTime } from '@/lib/format';
+import { useTranslation } from 'react-i18next';
 
 export function TimelineTab({ patientId }: { patientId: string }) {
+  const { t } = useTranslation('patientDetail');
   const { data, isPending, error, refetch } = useTimeline(patientId);
   if (isPending) return <CardSkeleton className="h-96" />;
   if (error) return <ErrorState error={error} onRetry={() => void refetch()} />;
-  if (!data.length) return <EmptyState title="No activity yet" />;
+  if (!data.length) return <EmptyState title={t('timeline.noActivity')} />;
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Rehabilitation timeline</CardTitle>
-        <CardDescription>The patient journey from assessment to outcomes</CardDescription>
+        <CardTitle>{t('timeline.title')}</CardTitle>
+        <CardDescription>{t('timeline.desc')}</CardDescription>
       </CardHeader>
       <CardContent>
         <ol className="space-y-0">

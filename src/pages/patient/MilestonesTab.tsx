@@ -14,10 +14,12 @@ import {
 import { formatDate } from '@/lib/format';
 import type { MilestoneStatus } from '@/lib/types';
 import { cn } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 const icon = { ACHIEVED: CheckCircle2, IN_PROGRESS: Clock3, PENDING: CircleDashed };
 
 export function MilestonesTab({ patientId }: { patientId: string }) {
+  const { t } = useTranslation('patientDetail');
   const { data, isPending, error, refetch } = useMilestones(patientId);
   const update = useUpdateMilestoneStatus(patientId);
 
@@ -26,8 +28,8 @@ export function MilestonesTab({ patientId }: { patientId: string }) {
   if (!data.program)
     return (
       <EmptyState
-        title="No milestones yet"
-        description="Milestones are created with the program."
+        title={t('milestonesTab.noMilestones')}
+        description={t('milestonesTab.noMilestonesDesc')}
       />
     );
 
@@ -43,10 +45,14 @@ export function MilestonesTab({ patientId }: { patientId: string }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Goals & milestones</CardTitle>
+        <CardTitle>{t('milestonesTab.title')}</CardTitle>
         <CardDescription>
-          {data.achieved} of {data.total} achieved · currently week {data.program.currentWeek} of{' '}
-          {data.program.durationWeeks}
+          {t('milestonesTab.desc', { 
+            achieved: data.achieved, 
+            total: data.total, 
+            current: data.program.currentWeek, 
+            duration: data.program.durationWeeks 
+          })}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -79,7 +85,7 @@ export function MilestonesTab({ patientId }: { patientId: string }) {
                 <div className="flex flex-1 flex-col gap-2 rounded-xl border p-4 sm:flex-row sm:items-center sm:justify-between">
                   <div className="space-y-1">
                     <p className="text-muted-foreground text-xs font-medium">
-                      Week {m.targetWeek}
+                      {t('milestonesTab.week', { week: m.targetWeek })}
                       {m.targetDate && ` · ${formatDate(m.targetDate)}`}
                     </p>
                     <p className="font-semibold">{m.title}</p>
@@ -87,7 +93,7 @@ export function MilestonesTab({ patientId }: { patientId: string }) {
                       <p className="text-muted-foreground text-sm">{m.description}</p>
                     )}
                     {m.achievedAt && (
-                      <p className="text-success text-xs">Achieved {formatDate(m.achievedAt)}</p>
+                      <p className="text-success text-xs">{t('milestonesTab.achievedAt', { date: formatDate(m.achievedAt) })}</p>
                     )}
                   </div>
                   <div className="flex items-center gap-2">
@@ -104,9 +110,9 @@ export function MilestonesTab({ patientId }: { patientId: string }) {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="PENDING">Upcoming</SelectItem>
-                        <SelectItem value="IN_PROGRESS">In progress</SelectItem>
-                        <SelectItem value="ACHIEVED">Achieved</SelectItem>
+                        <SelectItem value="PENDING">{t('milestonesTab.upcoming')}</SelectItem>
+                        <SelectItem value="IN_PROGRESS">{t('milestonesTab.inProgress')}</SelectItem>
+                        <SelectItem value="ACHIEVED">{t('milestonesTab.achieved')}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>

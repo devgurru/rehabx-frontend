@@ -8,8 +8,10 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { formatDate } from '@/lib/format';
+import { useTranslation } from 'react-i18next';
 
 export function PlanTab({ patientId }: { patientId: string }) {
+  const { t } = useTranslation('patientDetail');
   const program = useProgram(patientId);
   const goals = useGoals(patientId);
   const referrals = useReferrals(patientId);
@@ -23,17 +25,17 @@ export function PlanTab({ patientId }: { patientId: string }) {
       <Card className="lg:col-span-2">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <ClipboardList className="text-primary size-4" aria-hidden /> Rehabilitation program
+            <ClipboardList className="text-primary size-4" aria-hidden /> {t('plan.title')}
           </CardTitle>
         </CardHeader>
         <CardContent>
           {!program.data ? (
             <EmptyState
-              title="No active program"
-              description="Create a rehabilitation program after the specialty referral."
+              title={t('plan.noProgram')}
+              description={t('plan.noProgramDesc')}
               action={
                 <Button asChild size="sm">
-                  <Link to={`/patients/${patientId}/care-plan`}>Open care plan</Link>
+                  <Link to={`/patients/${patientId}/care-plan`}>{t('plan.openCarePlan')}</Link>
                 </Button>
               }
             />
@@ -45,10 +47,10 @@ export function PlanTab({ patientId }: { patientId: string }) {
               </div>
               <dl className="grid gap-4 sm:grid-cols-4">
                 {[
-                  ['Start date', formatDate(program.data.startDate)],
-                  ['Duration', `${program.data.durationWeeks} weeks`],
-                  ['Frequency', `${program.data.sessionsPerWeek} sessions / week`],
-                  ['Current week', `Week ${program.data.currentWeek}`],
+                  [t('plan.startDate'), formatDate(program.data.startDate)],
+                  [t('plan.duration'), t('plan.durationWeeks', { weeks: program.data.durationWeeks })],
+                  [t('plan.frequency'), t('plan.sessionsPerWeek', { sessions: program.data.sessionsPerWeek })],
+                  [t('plan.currentWeek'), t('plan.weekNum', { week: program.data.currentWeek })],
                 ].map(([label, value]) => (
                   <div key={label} className="bg-muted/60 rounded-lg p-3">
                     <dt className="text-muted-foreground text-xs">{label}</dt>
@@ -57,7 +59,7 @@ export function PlanTab({ patientId }: { patientId: string }) {
                 ))}
               </dl>
               <div>
-                <p className="mb-3 text-sm font-semibold">Exercise schedule</p>
+                <p className="mb-3 text-sm font-semibold">{t('plan.exerciseSchedule')}</p>
                 <div className="divide-y rounded-lg border">
                   {program.data.exercises.map((e) => (
                     <div
@@ -66,8 +68,8 @@ export function PlanTab({ patientId }: { patientId: string }) {
                     >
                       <span className="font-medium">{e.name}</span>
                       <span className="text-muted-foreground">
-                        {e.reps ? `${e.reps} reps · ` : ''}
-                        {e.durationMin} min · {e.frequencyPerWeek}× per week
+                        {e.reps ? `${t('plan.reps', { reps: e.reps })} · ` : ''}
+                        {t('plan.min', { min: e.durationMin })} · {t('plan.perWeek', { times: e.frequencyPerWeek })}
                       </span>
                     </div>
                   ))}
@@ -82,9 +84,9 @@ export function PlanTab({ patientId }: { patientId: string }) {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Target className="text-primary size-4" aria-hidden /> Goals
+              <Target className="text-primary size-4" aria-hidden /> {t('plan.goals')}
             </CardTitle>
-            <CardDescription>Progress from baseline to KPI target</CardDescription>
+            <CardDescription>{t('plan.goalsDesc')}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             {goals.data?.length ? (
@@ -93,14 +95,14 @@ export function PlanTab({ patientId }: { patientId: string }) {
                   <div className="flex items-center justify-between gap-2 text-sm">
                     <span className="font-medium">{g.title}</span>
                     {g.status === 'ACHIEVED' && (
-                      <Badge className="bg-success-soft text-success">Achieved</Badge>
+                      <Badge className="bg-success-soft text-success">{t('plan.achieved')}</Badge>
                     )}
                   </div>
                   <ProgressBar value={g.progress} />
                 </div>
               ))
             ) : (
-              <p className="text-muted-foreground text-sm">No goals set yet.</p>
+              <p className="text-muted-foreground text-sm">{t('plan.noGoals')}</p>
             )}
           </CardContent>
         </Card>
@@ -108,7 +110,7 @@ export function PlanTab({ patientId }: { patientId: string }) {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Send className="text-primary size-4" aria-hidden /> Referrals
+              <Send className="text-primary size-4" aria-hidden /> {t('plan.referrals')}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
@@ -123,7 +125,7 @@ export function PlanTab({ patientId }: { patientId: string }) {
                 </div>
               ))
             ) : (
-              <p className="text-muted-foreground text-sm">No referrals yet.</p>
+              <p className="text-muted-foreground text-sm">{t('plan.noReferrals')}</p>
             )}
           </CardContent>
         </Card>

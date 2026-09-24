@@ -15,6 +15,7 @@ import { todayIso } from '@/lib/format';
 import type { CarePlanDraft } from '@/store/carePlanSlice';
 import { StepFooter } from './StepFooter';
 import { type StepProps, useCarePlan } from './useCarePlan';
+import { useTranslation } from 'react-i18next';
 
 const DURATIONS = [4, 6, 8, 12];
 const FREQUENCIES = [1, 2, 3, 4, 5];
@@ -22,6 +23,7 @@ const SELECTED =
   'flex-1 data-[state=on]:border-primary data-[state=on]:bg-brand-soft data-[state=on]:text-accent-foreground';
 
 export function ProgramStep({ patientId, onComplete }: StepProps) {
+  const { t } = useTranslation('carePlan');
   const program = useProgram(patientId);
   const referrals = useReferrals(patientId);
   const { data: specialties } = useSpecialties();
@@ -35,7 +37,7 @@ export function ProgramStep({ patientId, onComplete }: StepProps) {
     draft.referral?.specialtyIds[0] ?? referrals.data?.[0]?.specialty.id ?? specialties[0].id;
   const specialtyName = (id: string) => specialties.find((s) => s.id === id)?.name ?? '';
   const values: NonNullable<CarePlanDraft['program']> = draft.program ?? {
-    name: program.data?.name ?? `Pediatric ${specialtyName(referredId)}`,
+    name: program.data?.name ?? t('program.defaultName', { specialty: specialtyName(referredId) }),
     specialtyId: program.data?.specialty.id ?? referredId,
     startDate: program.data?.startDate ?? todayIso(),
     durationWeeks: program.data?.durationWeeks ?? 8,
@@ -49,7 +51,7 @@ export function ProgramStep({ patientId, onComplete }: StepProps) {
       { ...values, ...(referralId ? { referralId } : {}) },
       {
         onSuccess: () => {
-          toast.success(program.data ? 'Program updated' : 'Rehabilitation program created');
+          toast.success(program.data ? t('program.updated') : t('program.created'));
           onComplete();
         },
         onError: (e) => toast.error(e.message),
@@ -63,13 +65,12 @@ export function ProgramStep({ patientId, onComplete }: StepProps) {
     <div className="space-y-6">
       {program.data && (
         <p className="bg-brand-soft/60 text-accent-foreground rounded-lg px-4 py-3 text-sm">
-          An active program exists. Saving updates it in place — recorded exercise history and
-          progress are kept.
+          {t('program.activeExists')}
         </p>
       )}
       <div className="grid gap-5 md:grid-cols-2">
         <div className="space-y-2">
-          <Label htmlFor="program-name">Program name</Label>
+          <Label htmlFor="program-name">{t('program.name')}</Label>
           <Input
             id="program-name"
             value={values.name}
@@ -77,10 +78,10 @@ export function ProgramStep({ patientId, onComplete }: StepProps) {
           />
         </div>
         <div className="space-y-2">
-          <Label>Specialty</Label>
+          <Label>{t('program.specialty')}</Label>
           <Select
             value={values.specialtyId}
-            onValueChange={(v) => set({ specialtyId: v, name: `Pediatric ${specialtyName(v)}` })}
+            onValueChange={(v) => set({ specialtyId: v, name: t('program.defaultName', { specialty: specialtyName(v) }) })}
           >
             <SelectTrigger className="w-full">
               <SelectValue />
@@ -95,12 +96,12 @@ export function ProgramStep({ patientId, onComplete }: StepProps) {
           </Select>
           {changingSpecialty && (
             <p className="text-warning text-xs">
-              Changing specialty starts a new pathway and closes the current program.
+              {t('program.warning')}
             </p>
           )}
         </div>
         <div className="space-y-2">
-          <Label htmlFor="start-date">Start date</Label>
+          <Label htmlFor="start-date">{t('program.startDate')}</Label>
           <Input
             id="start-date"
             type="date"
@@ -109,7 +110,7 @@ export function ProgramStep({ patientId, onComplete }: StepProps) {
           />
         </div>
         <div className="space-y-2">
-          <Label>Duration</Label>
+          <Label>{t('program.duration')}</Label>
           <ToggleGroup
             type="single"
             variant="outline"
@@ -119,13 +120,13 @@ export function ProgramStep({ patientId, onComplete }: StepProps) {
           >
             {DURATIONS.map((d) => (
               <ToggleGroupItem key={d} value={String(d)} className={SELECTED}>
-                {d} weeks
+                {t('program.weeks', { weeks: d })}
               </ToggleGroupItem>
             ))}
           </ToggleGroup>
         </div>
         <div className="space-y-2 md:col-span-2">
-          <Label>Frequency</Label>
+          <Label>{t('program.frequency')}</Label>
           <ToggleGroup
             type="single"
             variant="outline"
@@ -135,7 +136,7 @@ export function ProgramStep({ patientId, onComplete }: StepProps) {
           >
             {FREQUENCIES.map((f) => (
               <ToggleGroupItem key={f} value={String(f)} className={`${SELECTED} px-4`}>
-                {f} × / week
+                {t('program.timesPerWeek', { times: f })}
               </ToggleGroupItem>
             ))}
           </ToggleGroup>
@@ -143,11 +144,11 @@ export function ProgramStep({ patientId, onComplete }: StepProps) {
       </div>
 
       <StepFooter
-        primaryLabel={program.data ? 'Save program' : 'Create program'}
+        primaryLabel={program.data ? t('program.save') : t('program.create')}
         onPrimary={submit}
         pending={save.isPending}
         disabled={values.name.trim().length < 3 || !values.startDate}
-        hint="Milestones are generated from the specialty pathway template and can be edited in the last step."
+        hint={t('program.hint')}
       />
     </div>
   );

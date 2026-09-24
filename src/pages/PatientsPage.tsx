@@ -26,14 +26,17 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { formatDate, statusLabel } from '@/lib/format';
+import { formatDate } from '@/lib/format';
 import type { PatientStatus } from '@/lib/types';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { patientFiltersChanged, patientFiltersReset } from '@/store/uiSlice';
+import { useTranslation } from 'react-i18next';
 
 const STATUSES: PatientStatus[] = ['ACTIVE', 'UNDER_REVIEW', 'NEW', 'COMPLETED'];
 
 export default function PatientsPage() {
+  const { t } = useTranslation('patients');
+  const { t: tCommon } = useTranslation('common');
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const filters = useAppSelector((s) => s.ui.patientFilters);
@@ -58,33 +61,33 @@ export default function PatientsPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Patients"
-        description="Children under your care, their rehabilitation specialty and overall progress."
+        title={t('header.title')}
+        description={t('header.description')}
       />
 
       <div className="flex flex-col gap-3 md:flex-row md:items-center">
         <div className="relative md:max-w-sm md:flex-1">
           <Search
-            className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2"
+            className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2 rtl:left-auto rtl:right-3"
             aria-hidden
           />
           <Input
             value={filters.search}
             onChange={(e) => dispatch(patientFiltersChanged({ search: e.target.value }))}
-            placeholder="Search by name or diagnosis"
-            className="pl-9"
-            aria-label="Search patients"
+            placeholder={t('filters.searchPlaceholder')}
+            className="ps-9"
+            aria-label={t('filters.searchAria')}
           />
         </div>
         <Select
           value={filters.specialtyId}
           onValueChange={(v) => dispatch(patientFiltersChanged({ specialtyId: v }))}
         >
-          <SelectTrigger className="md:w-56" aria-label="Filter by specialty">
+          <SelectTrigger className="md:w-56" aria-label={t('filters.specialtyAria')}>
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All specialties</SelectItem>
+            <SelectItem value="all">{t('filters.allSpecialties')}</SelectItem>
             {specialties?.map((s) => (
               <SelectItem key={s.id} value={s.id}>
                 {s.name}
@@ -98,21 +101,21 @@ export default function PatientsPage() {
             dispatch(patientFiltersChanged({ status: v as PatientStatus | 'all' }))
           }
         >
-          <SelectTrigger className="md:w-48" aria-label="Filter by status">
+          <SelectTrigger className="md:w-48" aria-label={t('filters.statusAria')}>
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All statuses</SelectItem>
+            <SelectItem value="all">{t('filters.allStatuses')}</SelectItem>
             {STATUSES.map((s) => (
               <SelectItem key={s} value={s}>
-                {statusLabel[s]}
+                {tCommon(`status.${s}`)}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
         {isFiltered && (
           <Button variant="ghost" onClick={() => dispatch(patientFiltersReset())}>
-            <X /> Clear
+            <X /> {t('filters.clear')}
           </Button>
         )}
       </div>
@@ -124,13 +127,13 @@ export default function PatientsPage() {
           <Table>
             <TableHeader>
               <TableRow className="bg-muted/50 hover:bg-muted/50">
-                <TableHead className="pl-5">Patient</TableHead>
-                <TableHead>Age</TableHead>
-                <TableHead>Diagnosis</TableHead>
-                <TableHead>Specialty</TableHead>
-                <TableHead className="w-48">Progress</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="pr-5">Last assessment</TableHead>
+                <TableHead className="ps-5">{t('table.patient')}</TableHead>
+                <TableHead>{t('table.age')}</TableHead>
+                <TableHead>{t('table.diagnosis')}</TableHead>
+                <TableHead>{t('table.specialty')}</TableHead>
+                <TableHead className="w-48">{t('table.progress')}</TableHead>
+                <TableHead>{t('table.status')}</TableHead>
+                <TableHead className="pe-5">{t('table.lastAssessment')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -149,15 +152,15 @@ export default function PatientsPage() {
                   onClick={() => navigate(`/patients/${p.id}`)}
                   onKeyDown={(e) => e.key === 'Enter' && navigate(`/patients/${p.id}`)}
                   tabIndex={0}
-                  aria-label={`Open ${p.fullName}`}
+                  aria-label={t('table.openPatient', { name: p.fullName })}
                 >
-                  <TableCell className="pl-5">
+                  <TableCell className="ps-5">
                     <div className="flex items-center gap-3">
                       <PatientAvatar name={p.fullName} color={p.avatarColor} size="sm" />
                       <div>
                         <p className="font-semibold">{p.fullName}</p>
                         <p className="text-muted-foreground text-xs">
-                          {p.gender === 'MALE' ? 'Boy' : 'Girl'}
+                          {p.gender === 'MALE' ? t('table.boy') : t('table.girl')}
                         </p>
                       </div>
                     </div>
@@ -169,7 +172,7 @@ export default function PatientsPage() {
                   </TableCell>
                   <TableCell>
                     {p.requiresReview ? (
-                      <span className="text-muted-foreground text-sm">Not started</span>
+                      <span className="text-muted-foreground text-sm">{t('table.notStarted')}</span>
                     ) : (
                       <ProgressBar value={p.progress} />
                     )}
@@ -177,7 +180,7 @@ export default function PatientsPage() {
                   <TableCell>
                     <PatientStatusBadge status={p.status} />
                   </TableCell>
-                  <TableCell className="text-muted-foreground pr-5">
+                  <TableCell className="text-muted-foreground pe-5">
                     {p.lastAssessmentAt ? formatDate(p.lastAssessmentAt) : '—'}
                   </TableCell>
                 </TableRow>
@@ -188,11 +191,11 @@ export default function PatientsPage() {
             <EmptyState
               icon={SearchX}
               className="m-5"
-              title="No patients match your filters"
-              description="Try a different name, diagnosis or specialty."
+              title={t('empty.title')}
+              description={t('empty.description')}
               action={
                 <Button variant="outline" size="sm" onClick={() => dispatch(patientFiltersReset())}>
-                  Clear filters
+                  {t('empty.clearFilters')}
                 </Button>
               }
             />

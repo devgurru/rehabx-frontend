@@ -25,7 +25,7 @@ export function StepFooter({
         <Button onClick={onPrimary} disabled={disabled || pending}>
           {pending && <Loader2 className="animate-spin" />}
           {primaryLabel}
-          {!pending && <ArrowRight />}
+          {!pending && <ArrowRight className="rtl:rotate-180" />}
         </Button>
       </div>
     </div>

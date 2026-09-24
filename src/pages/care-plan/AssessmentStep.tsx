@@ -17,6 +17,7 @@ import { formatDate } from '@/lib/format';
 import type { Assessment, AssessmentInput, DomainKey } from '@/lib/types';
 import { StepFooter } from './StepFooter';
 import type { StepProps } from './useCarePlan';
+import { useTranslation } from 'react-i18next';
 
 type FormState = {
   scores: Record<DomainKey, number | null>;
@@ -28,14 +29,14 @@ type FormState = {
   recommendedSpecialtyId: string;
 };
 
-const DOMAIN_ORDER: { key: DomainKey; label: string; group: 'Motor' | 'Function' }[] = [
-  { key: 'mobility', label: 'Mobility', group: 'Motor' },
-  { key: 'motorSkills', label: 'Motor skills', group: 'Motor' },
-  { key: 'balance', label: 'Balance', group: 'Motor' },
-  { key: 'upperLimb', label: 'Upper-limb function', group: 'Motor' },
-  { key: 'lowerLimb', label: 'Lower-limb function', group: 'Motor' },
-  { key: 'communication', label: 'Communication', group: 'Function' },
-  { key: 'dailyFunction', label: 'Daily activity / function', group: 'Function' },
+const DOMAIN_ORDER: { key: DomainKey; group: 'Motor' | 'Function' }[] = [
+  { key: 'mobility', group: 'Motor' },
+  { key: 'motorSkills', group: 'Motor' },
+  { key: 'balance', group: 'Motor' },
+  { key: 'upperLimb', group: 'Motor' },
+  { key: 'lowerLimb', group: 'Motor' },
+  { key: 'communication', group: 'Function' },
+  { key: 'dailyFunction', group: 'Function' },
 ];
 
 function toForm(a: Assessment | null): FormState {
@@ -83,6 +84,7 @@ function AssessmentForm({
   onComplete,
   latest,
 }: StepProps & { latest: Assessment | null }) {
+  const { t } = useTranslation('carePlan');
   const { data: specialties } = useSpecialties();
   const create = useCreateAssessment(patientId);
   const [form, setForm] = useState<FormState>(() => toForm(latest));
@@ -96,7 +98,7 @@ function AssessmentForm({
   const save = () =>
     create.mutate(toInput(form), {
       onSuccess: () => {
-        toast.success(latest ? 'Re-assessment saved' : 'Assessment saved');
+        toast.success(latest ? t('assessment.reSave') : t('assessment.saved'));
         onComplete();
       },
       onError: (e) => toast.error(e.message),
@@ -106,19 +108,18 @@ function AssessmentForm({
     <div className="space-y-8">
       {latest && (
         <p className="bg-brand-soft/60 text-accent-foreground rounded-lg px-4 py-3 text-sm">
-          Showing the assessment from{' '}
-          <span className="font-semibold">{formatDate(latest.assessedAt)}</span>. Review it, adjust
-          any score, and save as a re-assessment — or continue if nothing changed.
+          {t('assessment.showing', { date: formatDate(latest.assessedAt) })}
         </p>
       )}
 
       <section className="space-y-5">
         <h3 className="text-muted-foreground text-sm font-semibold tracking-wide uppercase">
-          Functional assessment
+          {t('assessment.title')}
         </h3>
         <div className="grid gap-x-8 gap-y-6 md:grid-cols-2">
-          {DOMAIN_ORDER.map(({ key, label }) => {
+          {DOMAIN_ORDER.map(({ key }) => {
             const score = form.scores[key];
+            const label = t(`assessment.domains.${key}`);
             return (
               <div key={key} className="space-y-2.5">
                 <div className="flex items-center justify-between">
@@ -139,7 +140,7 @@ function AssessmentForm({
                 <Textarea
                   value={form.notes[key]}
                   onChange={(e) => patch({ notes: { ...form.notes, [key]: e.target.value } })}
-                  placeholder="Observations"
+                  placeholder={t('assessment.observations')}
                   rows={2}
                   className="min-h-0 text-sm"
                   aria-label={`${label} observations`}
@@ -152,7 +153,7 @@ function AssessmentForm({
 
       <section className="grid gap-5 md:grid-cols-2">
         <div className="space-y-2">
-          <Label htmlFor="abilities">Current abilities</Label>
+          <Label htmlFor="abilities">{t('assessment.currentAbilities')}</Label>
           <Textarea
             id="abilities"
             rows={3}
@@ -161,7 +162,7 @@ function AssessmentForm({
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="summary">Clinical summary</Label>
+          <Label htmlFor="summary">{t('assessment.clinicalSummary')}</Label>
           <Textarea
             id="summary"
             rows={3}
@@ -170,7 +171,7 @@ function AssessmentForm({
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="risk">Risk notes</Label>
+          <Label htmlFor="risk">{t('assessment.riskNotes')}</Label>
           <Textarea
             id="risk"
             rows={2}
@@ -179,7 +180,7 @@ function AssessmentForm({
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="concerns">Clinical concerns</Label>
+          <Label htmlFor="concerns">{t('assessment.clinicalConcerns')}</Label>
           <Textarea
             id="concerns"
             rows={2}
@@ -188,13 +189,13 @@ function AssessmentForm({
           />
         </div>
         <div className="space-y-2">
-          <Label>Recommended specialty</Label>
+          <Label>{t('assessment.recommendedSpecialty')}</Label>
           <Select
             value={form.recommendedSpecialtyId}
             onValueChange={(v) => patch({ recommendedSpecialtyId: v })}
           >
             <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select specialty" />
+              <SelectValue placeholder={t('assessment.selectSpecialty')} />
             </SelectTrigger>
             <SelectContent>
               {specialties?.map((s) => (
@@ -208,8 +209,8 @@ function AssessmentForm({
       </section>
 
       <StepFooter
-        hint="Scores are prototype 0–100 ratings, not standardised clinical instruments."
-        primaryLabel={dirty || !latest ? 'Save assessment' : 'Continue to review'}
+        hint={t('assessment.hint')}
+        primaryLabel={dirty || !latest ? t('assessment.save') : t('assessment.continue')}
         pending={create.isPending}
         onPrimary={dirty || !latest ? save : onComplete}
         secondary={
@@ -221,7 +222,7 @@ function AssessmentForm({
                 setDirty(false);
               }}
             >
-              Discard changes
+              {t('assessment.discard')}
             </Button>
           ) : undefined
         }

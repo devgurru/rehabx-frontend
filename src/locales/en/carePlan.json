@@ -1,0 +1,141 @@
+{
+  "title": "Care plan · {{name}}",
+  "years": "{{count}} years",
+  "ready": {
+    "title": "Care plan ready",
+    "description": "{{name}}’s program, exercises, goals and milestones are live. The caregiver sees today’s exercises with the 3D guide in the RehabX mobile app.",
+    "sharedWith": "Shared with {{name}} ({{relationship}})",
+    "viewPatient": "View patient",
+    "reviewAgain": "Review steps again"
+  },
+  "step": "Step {{current}} of {{total}}",
+  "steps": {
+    "assessment": {
+      "title": "Assessment",
+      "description": "Structured functional assessment"
+    },
+    "review": {
+      "title": "Clinical review",
+      "description": "Diagnosis, baseline and recommendation"
+    },
+    "referral": {
+      "title": "Specialty referral",
+      "description": "Refer to the required specialties"
+    },
+    "program": {
+      "title": "Rehabilitation program",
+      "description": "Duration, frequency and schedule"
+    },
+    "exercises": {
+      "title": "Exercises",
+      "description": "Assign guided home exercises"
+    },
+    "goals": {
+      "title": "Goals & milestones",
+      "description": "Define measurable outcomes"
+    }
+  },
+  "assessment": {
+    "showing": "Showing the assessment from {{date}}. Review it, adjust any score, and save as a re-assessment — or continue if nothing changed.",
+    "title": "Functional assessment",
+    "domains": {
+      "mobility": "Mobility",
+      "motorSkills": "Motor skills",
+      "balance": "Balance",
+      "upperLimb": "Upper-limb function",
+      "lowerLimb": "Lower-limb function",
+      "communication": "Communication",
+      "dailyFunction": "Daily activity / function"
+    },
+    "observations": "Observations",
+    "currentAbilities": "Current abilities",
+    "clinicalSummary": "Clinical summary",
+    "riskNotes": "Risk notes",
+    "clinicalConcerns": "Clinical concerns",
+    "recommendedSpecialty": "Recommended specialty",
+    "selectSpecialty": "Select specialty",
+    "save": "Save assessment",
+    "reSave": "Re-assessment saved",
+    "saved": "Assessment saved",
+    "continue": "Continue to review",
+    "discard": "Discard changes",
+    "hint": "Scores are prototype 0–100 ratings, not standardised clinical instruments."
+  },
+  "review": {
+    "diagnosis": "Diagnosis",
+    "recommendedSpecialty": "Recommended specialty",
+    "physicianNote": "Physician-led decision — the referral in the next step is based on this recommendation.",
+    "baseline": "Baseline",
+    "target": "target {{value}}%",
+    "primaryGoals": "Primary goals",
+    "improve": "Improve {{name}}",
+    "risk": "Risk",
+    "noneRecorded": "None recorded",
+    "confirm": "Confirm review",
+    "hint": "Reviewed by the pediatric rehabilitation physician."
+  },
+  "referral": {
+    "success": "Referral created successfully",
+    "continue": "Continue to rehabilitation program",
+    "required": "Required specialties",
+    "reason": "Reason for referral",
+    "reasonDefault": "Improve mobility and upper-limb function",
+    "note": "Therapist matching and scheduling are outside the prototype scope.",
+    "create": "Create referral",
+    "skip": "Skip — referral already exists"
+  },
+  "program": {
+    "activeExists": "An active program exists. Saving updates it in place — recorded exercise history and progress are kept.",
+    "name": "Program name",
+    "defaultName": "Pediatric {{specialty}}",
+    "specialty": "Specialty",
+    "warning": "Changing specialty starts a new pathway and closes the current program.",
+    "startDate": "Start date",
+    "duration": "Duration",
+    "weeks": "{{weeks}} weeks",
+    "frequency": "Frequency",
+    "timesPerWeek": "{{times}} × / week",
+    "save": "Save program",
+    "create": "Create program",
+    "hint": "Milestones are generated from the specialty pathway template and can be edited in the last step.",
+    "created": "Rehabilitation program created",
+    "updated": "Program updated"
+  },
+  "exercises": {
+    "createFirst": "Create the program first",
+    "createFirstDesc": "Exercises are assigned to an active rehabilitation program.",
+    "library": "{{specialty}} exercise library · {{count}} selected",
+    "guide": "3D guide",
+    "improves": "Improves {{name}}",
+    "reps": "Reps",
+    "repsPlaceholder": "{{name}} repetitions",
+    "minutes": "Minutes",
+    "minutesPlaceholder": "{{name}} minutes",
+    "perWeek": "Per week",
+    "perWeekPlaceholder": "{{name}} sessions per week",
+    "preview": "Caregiver preview",
+    "assign": "Assign {{count}} exercise",
+    "assignPlural": "Assign {{count}} exercises",
+    "hint": "Assigned exercises appear instantly in the caregiver app.",
+    "assignedSuccess": "{{count}} exercises assigned"
+  },
+  "goals": {
+    "createFirst": "Create the program first",
+    "createFirstDesc": "Goals and milestones belong to a program.",
+    "saved": "Goals and milestones saved",
+    "error": "Could not save",
+    "title": "Rehabilitation goals",
+    "addCustom": "Add custom goal",
+    "goalLabel": "Goal",
+    "measuredBy": "Measured by KPI",
+    "noKpi": "No linked KPI",
+    "measuredByKpi": "Measured by {{name}}",
+    "milestones": "Milestones",
+    "programDuration": "{{weeks}}-week program",
+    "weekLabel": "Week",
+    "milestoneLabel": "Milestone",
+    "status": "Milestone status",
+    "addMilestone": "Add milestone",
+    "save": "Save & finish care plan"
+  }
+}

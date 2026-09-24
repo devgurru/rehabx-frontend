@@ -4,6 +4,7 @@ import { ProgressBar } from '@/components/shared/progress';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { formatDate } from '@/lib/format';
 import type { Assessment } from '@/lib/types';
+import { useTranslation } from 'react-i18next';
 
 /** Read-only structured assessment — used on the patient page and in the clinical review step. */
 export function AssessmentView({
@@ -13,14 +14,15 @@ export function AssessmentView({
   assessment: Assessment;
   baseline?: Assessment | null;
 }) {
+  const { t } = useTranslation('patientDetail');
   return (
     <div className="grid gap-4 lg:grid-cols-5">
       <Card className="lg:col-span-3">
         <CardHeader>
-          <CardTitle>Functional assessment</CardTitle>
+          <CardTitle>{t('assessment.title')}</CardTitle>
           <CardDescription>
             {formatDate(assessment.assessedAt)} · {assessment.assessedBy ?? 'Clinician'}
-            {assessment.isBaseline && ' · baseline'}
+            {assessment.isBaseline && ` · ${t('assessment.baseline')}`}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-5">
@@ -34,11 +36,11 @@ export function AssessmentView({
                 <div className="flex items-baseline justify-between gap-3">
                   <span className="text-sm font-medium">{d.label}</span>
                   {base?.score != null && d.score != null && (
-                    <span className="text-muted-foreground text-xs">baseline {base.score}%</span>
+                    <span className="text-muted-foreground text-xs">{t('assessment.baseline')} {base.score}%</span>
                   )}
                 </div>
                 {d.score == null ? (
-                  <p className="text-muted-foreground text-sm">Not assessed</p>
+                  <p className="text-muted-foreground text-sm">{t('assessment.notAssessed')}</p>
                 ) : (
                   <ProgressBar value={d.score} />
                 )}
@@ -47,8 +49,7 @@ export function AssessmentView({
             );
           })}
           <p className="text-muted-foreground text-xs">
-            Scores are 0–100 prototype ratings and are not a substitute for standardised clinical
-            instruments.
+            {t('assessment.scoresNote')}
           </p>
         </CardContent>
       </Card>
@@ -57,20 +58,20 @@ export function AssessmentView({
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <FileText className="text-primary size-4" aria-hidden /> Clinical summary
+              <FileText className="text-primary size-4" aria-hidden /> {t('assessment.clinicalSummary')}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4 text-sm">
             <p>{assessment.summary ?? '—'}</p>
             {assessment.currentAbilities && (
               <div>
-                <p className="text-muted-foreground mb-1 text-xs font-medium">Current abilities</p>
+                <p className="text-muted-foreground mb-1 text-xs font-medium">{t('assessment.currentAbilities')}</p>
                 <p>{assessment.currentAbilities}</p>
               </div>
             )}
             <div>
               <p className="text-muted-foreground mb-1.5 text-xs font-medium">
-                Recommended specialty
+                {t('assessment.recommendedSpecialty')}
               </p>
               <SpecialtyBadge specialty={assessment.recommendedSpecialty} />
             </div>
@@ -79,19 +80,19 @@ export function AssessmentView({
         <Card className="border-warning/20 bg-warning-soft/40">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <AlertTriangle className="text-warning size-4" aria-hidden /> Risk & concerns
+              <AlertTriangle className="text-warning size-4" aria-hidden /> {t('assessment.riskConcerns')}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3 text-sm">
             <div>
-              <p className="text-muted-foreground mb-1 text-xs font-medium">Risk notes</p>
-              <p>{assessment.riskNotes ?? 'None recorded'}</p>
+              <p className="text-muted-foreground mb-1 text-xs font-medium">{t('assessment.riskNotes')}</p>
+              <p>{assessment.riskNotes ?? t('assessment.noneRecorded')}</p>
             </div>
             <div>
               <p className="text-muted-foreground mb-1 flex items-center gap-1 text-xs font-medium">
-                <Lightbulb className="size-3" aria-hidden /> Clinical concerns
+                <Lightbulb className="size-3" aria-hidden /> {t('assessment.clinicalConcerns')}
               </p>
-              <p>{assessment.clinicalConcerns ?? 'None recorded'}</p>
+              <p>{assessment.clinicalConcerns ?? t('assessment.noneRecorded')}</p>
             </div>
           </CardContent>
         </Card>

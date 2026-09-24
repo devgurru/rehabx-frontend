@@ -11,6 +11,7 @@ import type { Referral } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { StepFooter } from './StepFooter';
 import { type StepProps, useCarePlan } from './useCarePlan';
+import { useTranslation } from 'react-i18next';
 
 export function ReferralStep({ patientId, onComplete }: StepProps) {
   const { data: specialties } = useSpecialties();
@@ -41,11 +42,12 @@ function ReferralForm({
   defaultSpecialtyIds: string[];
   hasExisting: boolean;
 }) {
+  const { t } = useTranslation('carePlan');
   const { draft, update } = useCarePlan(patientId);
   const create = useCreateReferral(patientId);
   const [created, setCreated] = useState<Referral[] | null>(null);
   const selected = draft.referral?.specialtyIds ?? defaultSpecialtyIds;
-  const reason = draft.referral?.reason ?? 'Improve mobility and upper-limb function';
+  const reason = draft.referral?.reason ?? t('referral.reasonDefault');
 
   const setReferral = (patch: Partial<{ specialtyIds: string[]; reason: string }>) =>
     update({ referral: { specialtyIds: selected, reason, ...patch } });
@@ -59,7 +61,7 @@ function ReferralForm({
       {
         onSuccess: (referrals) => {
           setCreated(referrals);
-          toast.success('Referral created successfully');
+          toast.success(t('referral.success'));
         },
         onError: (e) => toast.error(e.message),
       },
@@ -72,12 +74,12 @@ function ReferralForm({
           <CheckCircle2 className="size-7" aria-hidden />
         </span>
         <div className="space-y-1">
-          <p className="text-xl font-semibold">Referral created successfully</p>
+          <p className="text-xl font-semibold">{t('referral.success')}</p>
           <p className="text-muted-foreground text-sm">
             {created.map((r) => r.specialty.name).join(', ')} · {reason}
           </p>
         </div>
-        <Button onClick={onComplete}>Continue to rehabilitation program</Button>
+        <Button onClick={onComplete}>{t('referral.continue')}</Button>
       </div>
     );
   }
@@ -85,7 +87,7 @@ function ReferralForm({
   return (
     <div className="space-y-6">
       <fieldset className="space-y-3">
-        <legend className="mb-3 text-sm font-semibold">Required specialties</legend>
+        <legend className="mb-3 text-sm font-semibold">{t('referral.required')}</legend>
         <div className="grid gap-3 md:grid-cols-3">
           {specialties.map((s) => {
             const checked = selected.includes(s.id);
@@ -119,7 +121,7 @@ function ReferralForm({
       </fieldset>
 
       <div className="space-y-2">
-        <Label htmlFor="reason">Reason for referral</Label>
+        <Label htmlFor="reason">{t('referral.reason')}</Label>
         <Textarea
           id="reason"
           rows={3}
@@ -129,18 +131,18 @@ function ReferralForm({
       </div>
 
       <p className="text-muted-foreground text-xs">
-        Therapist matching and scheduling are outside the prototype scope.
+        {t('referral.note')}
       </p>
 
       <StepFooter
-        primaryLabel="Create referral"
+        primaryLabel={t('referral.create')}
         onPrimary={submit}
         pending={create.isPending}
         disabled={selected.length === 0 || reason.trim().length < 3}
         secondary={
           hasExisting ? (
             <Button variant="ghost" onClick={onComplete}>
-              Skip — referral already exists
+              {t('referral.skip')}
             </Button>
           ) : undefined
         }

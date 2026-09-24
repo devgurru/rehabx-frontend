@@ -22,6 +22,7 @@ import type { MilestoneStatus } from '@/lib/types';
 import type { GoalDraft, MilestoneDraft } from '@/store/carePlanSlice';
 import { StepFooter } from './StepFooter';
 import { type StepProps, useCarePlan } from './useCarePlan';
+import { useTranslation } from 'react-i18next';
 
 const GOAL_SUGGESTIONS: { title: string; kpiCode: string }[] = [
   { title: 'Improve upper-limb mobility', kpiCode: 'MOBILITY' },
@@ -33,6 +34,7 @@ const GOAL_SUGGESTIONS: { title: string; kpiCode: string }[] = [
 const NO_KPI = 'none';
 
 export function GoalsStep({ patientId, onComplete }: StepProps) {
+  const { t } = useTranslation(['carePlan', 'common']);
   const program = useProgram(patientId);
   const milestones = useMilestones(patientId);
   const { data: kpis } = useKpiDefinitions();
@@ -44,8 +46,8 @@ export function GoalsStep({ patientId, onComplete }: StepProps) {
   if (!program.data)
     return (
       <EmptyState
-        title="Create the program first"
-        description="Goals and milestones belong to a program."
+        title={t('goals.createFirst')}
+        description={t('goals.createFirstDesc')}
       />
     );
 
@@ -73,10 +75,10 @@ export function GoalsStep({ patientId, onComplete }: StepProps) {
           .filter((m) => m.title.trim().length >= 3)
           .sort((a, b) => a.targetWeek - b.targetWeek),
       );
-      toast.success('Goals and milestones saved');
+      toast.success(t('goals.saved'));
       onComplete();
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : 'Could not save');
+      toast.error(e instanceof Error ? e.message : t('goals.error'));
     }
   };
 
@@ -84,7 +86,7 @@ export function GoalsStep({ patientId, onComplete }: StepProps) {
     <div className="space-y-8">
       <section className="space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <h3 className="font-semibold">Rehabilitation goals</h3>
+          <h3 className="font-semibold">{t('goals.title')}</h3>
           <div className="flex flex-wrap gap-2">
             {GOAL_SUGGESTIONS.filter((s) => !goals.some((g) => g.title === s.title)).map((s) => (
               <Button
@@ -109,7 +111,7 @@ export function GoalsStep({ patientId, onComplete }: StepProps) {
                 onChange={(e) =>
                   setGoals(goals.map((x, j) => (j === i ? { ...x, title: e.target.value } : x)))
                 }
-                aria-label="Goal"
+                aria-label={t('goals.goalLabel')}
                 className="flex-1"
               />
               <Select
@@ -120,14 +122,14 @@ export function GoalsStep({ patientId, onComplete }: StepProps) {
                   )
                 }
               >
-                <SelectTrigger className="sm:w-56" aria-label="Measured by KPI">
+                <SelectTrigger className="sm:w-56" aria-label={t('goals.measuredBy')}>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value={NO_KPI}>No linked KPI</SelectItem>
+                  <SelectItem value={NO_KPI}>{t('goals.noKpi')}</SelectItem>
                   {kpis?.map((k) => (
                     <SelectItem key={k.id} value={k.id}>
-                      Measured by {k.name}
+                      {t('goals.measuredByKpi', { name: k.name })}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -147,15 +149,15 @@ export function GoalsStep({ patientId, onComplete }: StepProps) {
             size="sm"
             onClick={() => setGoals([...goals, { title: '', kpiId: null }])}
           >
-            <Plus /> Add custom goal
+            <Plus /> {t('goals.addCustom')}
           </Button>
         </div>
       </section>
 
       <section className="space-y-4">
         <div className="flex items-center justify-between">
-          <h3 className="font-semibold">Milestones</h3>
-          <Badge variant="outline">{program.data.durationWeeks}-week program</Badge>
+          <h3 className="font-semibold">{t('goals.milestones')}</h3>
+          <Badge variant="outline">{t('goals.programDuration', { weeks: program.data.durationWeeks })}</Badge>
         </div>
         <div className="space-y-2">
           {plan.map((m, i) => (
@@ -164,7 +166,7 @@ export function GoalsStep({ patientId, onComplete }: StepProps) {
               className="flex flex-col gap-2 rounded-xl border p-3 sm:flex-row sm:items-center"
             >
               <label className="flex items-center gap-2 text-sm">
-                <span className="text-muted-foreground">Week</span>
+                <span className="text-muted-foreground">{t('goals.weekLabel')}</span>
                 <Input
                   type="number"
                   min={1}
@@ -187,7 +189,7 @@ export function GoalsStep({ patientId, onComplete }: StepProps) {
                 onChange={(e) =>
                   setPlan(plan.map((x, j) => (j === i ? { ...x, title: e.target.value } : x)))
                 }
-                aria-label="Milestone"
+                aria-label={t('goals.milestoneLabel')}
                 className="flex-1"
               />
               <Select
@@ -198,13 +200,13 @@ export function GoalsStep({ patientId, onComplete }: StepProps) {
                   )
                 }
               >
-                <SelectTrigger className="sm:w-36" aria-label="Milestone status">
+                <SelectTrigger className="sm:w-36" aria-label={t('goals.status')}>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="PENDING">Upcoming</SelectItem>
-                  <SelectItem value="IN_PROGRESS">In progress</SelectItem>
-                  <SelectItem value="ACHIEVED">Achieved</SelectItem>
+                  <SelectItem value="PENDING">{t('milestoneStatus.PENDING', { ns: 'common' })}</SelectItem>
+                  <SelectItem value="IN_PROGRESS">{t('milestoneStatus.IN_PROGRESS', { ns: 'common' })}</SelectItem>
+                  <SelectItem value="ACHIEVED">{t('milestoneStatus.ACHIEVED', { ns: 'common' })}</SelectItem>
                 </SelectContent>
               </Select>
               <Button
@@ -233,13 +235,13 @@ export function GoalsStep({ patientId, onComplete }: StepProps) {
               ])
             }
           >
-            <Plus /> Add milestone
+            <Plus /> {t('goals.addMilestone')}
           </Button>
         </div>
       </section>
 
       <StepFooter
-        primaryLabel="Save & finish care plan"
+        primaryLabel={t('goals.save')}
         onPrimary={() => void submit()}
         pending={saveGoals.isPending || saveMilestones.isPending}
         disabled={goals.length === 0}

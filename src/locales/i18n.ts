@@ -6,15 +6,27 @@ import enCommon from './en/common.json';
 import arCommon from './ar/common.json';
 import enDashboard from './en/dashboard.json';
 import arDashboard from './ar/dashboard.json';
+import enPatients from './en/patients.json';
+import arPatients from './ar/patients.json';
+import enPatientDetail from './en/patientDetail.json';
+import arPatientDetail from './ar/patientDetail.json';
+import enCarePlan from './en/carePlan.json';
+import arCarePlan from './ar/carePlan.json';
 
 const resources = {
   en: {
     common: enCommon,
     dashboard: enDashboard,
+    patients: enPatients,
+    patientDetail: enPatientDetail,
+    carePlan: enCarePlan,
   },
   ar: {
     common: arCommon,
     dashboard: arDashboard,
+    patients: arPatients,
+    patientDetail: arPatientDetail,
+    carePlan: arCarePlan,
   },
 };
 

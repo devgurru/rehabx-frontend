@@ -4,14 +4,16 @@ import { KpiComparisonChart } from '@/components/charts/KpiComparisonChart';
 import { KpiTrendChart } from '@/components/charts/KpiTrendChart';
 import { CardSkeleton, EmptyState, ErrorState } from '@/components/shared/states';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { useTranslation } from 'react-i18next';
 
 export function KpisTab({ patientId }: { patientId: string }) {
+  const { t } = useTranslation('patientDetail');
   const { data, isPending, error, refetch } = usePatientKpis(patientId);
   if (isPending) return <CardSkeleton className="h-96" />;
   if (error) return <ErrorState error={error} onRetry={() => void refetch()} />;
   if (!data.length)
     return (
-      <EmptyState title="No KPIs yet" description="KPIs are set from the baseline assessment." />
+      <EmptyState title={t('kpis.noKpis')} description={t('kpis.noKpisDesc')} />
     );
 
   return (
@@ -24,8 +26,8 @@ export function KpisTab({ patientId }: { patientId: string }) {
       <div className="grid gap-4 lg:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle>Baseline vs current vs target</CardTitle>
-            <CardDescription>All KPIs on a shared 0–100 scale</CardDescription>
+            <CardTitle>{t('kpis.baselineVsTarget')}</CardTitle>
+            <CardDescription>{t('kpis.sharedScale')}</CardDescription>
           </CardHeader>
           <CardContent>
             <KpiComparisonChart
@@ -40,8 +42,8 @@ export function KpisTab({ patientId }: { patientId: string }) {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Trend over time</CardTitle>
-            <CardDescription>Weekly KPI reviews since the baseline assessment</CardDescription>
+            <CardTitle>{t('kpis.trendTitle')}</CardTitle>
+            <CardDescription>{t('kpis.trendDesc')}</CardDescription>
           </CardHeader>
           <CardContent>
             <KpiTrendChart kpis={data} />

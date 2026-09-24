@@ -1,0 +1,33 @@
+{
+  "header": {
+    "title": "Patients",
+    "description": "Children under your care, their rehabilitation specialty and overall progress."
+  },
+  "filters": {
+    "searchPlaceholder": "Search by name or diagnosis",
+    "searchAria": "Search patients",
+    "specialtyAria": "Filter by specialty",
+    "allSpecialties": "All specialties",
+    "statusAria": "Filter by status",
+    "allStatuses": "All statuses",
+    "clear": "Clear"
+  },
+  "table": {
+    "patient": "Patient",
+    "age": "Age",
+    "diagnosis": "Diagnosis",
+    "specialty": "Specialty",
+    "progress": "Progress",
+    "status": "Status",
+    "lastAssessment": "Last assessment",
+    "boy": "Boy",
+    "girl": "Girl",
+    "notStarted": "Not started",
+    "openPatient": "Open {{name}}"
+  },
+  "empty": {
+    "title": "No patients match your filters",
+    "description": "Try a different name, diagnosis or specialty.",
+    "clearFilters": "Clear filters"
+  }
+}
