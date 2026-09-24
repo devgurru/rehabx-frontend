@@ -113,7 +113,7 @@ function ReferralForm({
                   />
                   <span className="font-semibold">{s.name}</span>
                 </div>
-                <span className="text-muted-foreground text-sm">{s.description}</span>
+                <span className="text-muted-foreground text-sm" dir="auto">{s.description}</span>
               </Label>
             );
           })}

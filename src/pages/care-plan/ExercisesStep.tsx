@@ -131,6 +131,7 @@ export function ExercisesStep({ patientId, onComplete }: StepProps) {
                     <Label
                       htmlFor={`ex-${exercise.id}`}
                       className="flex flex-wrap items-center gap-2 text-base font-semibold"
+                      dir="auto"
                     >
                       {exercise.name}
                       {exercise.motionKey && (
@@ -139,9 +140,9 @@ export function ExercisesStep({ patientId, onComplete }: StepProps) {
                         </Badge>
                       )}
                     </Label>
-                    <p className="text-muted-foreground text-sm">{exercise.description}</p>
+                    <p className="text-muted-foreground text-sm" dir="auto">{exercise.description}</p>
                     {exercise.targetKpi && (
-                      <p className="text-muted-foreground text-xs">
+                      <p className="text-muted-foreground text-xs" dir="auto">
                         {t('exercises.improves', { name: exercise.targetKpi.name })}
                       </p>
                     )}
@@ -186,10 +187,10 @@ export function ExercisesStep({ patientId, onComplete }: StepProps) {
           <LazyExercisePreview motionKey={preview?.motionKey ?? null} className="h-80" />
           {preview && (
             <div className="space-y-2 text-sm">
-              <p className="font-semibold">{preview.name}</p>
+              <p className="font-semibold" dir="auto">{preview.name}</p>
               <ol className="space-y-1.5">
                 {preview.instructions.map((step, i) => (
-                  <li key={step} className="text-muted-foreground flex gap-2">
+                  <li key={step} className="text-muted-foreground flex gap-2" dir="auto">
                     <span className="bg-muted text-foreground flex size-5 shrink-0 items-center justify-center rounded-full text-xs font-semibold">
                       {i + 1}
                     </span>

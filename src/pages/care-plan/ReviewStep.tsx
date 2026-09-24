@@ -31,8 +31,8 @@ export function ReviewStep({ patientId, onComplete }: StepProps) {
           <p className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
             {t('review.diagnosis')}
           </p>
-          <p className="text-xl font-semibold">{patient.data?.diagnosis.name}</p>
-          <p className="text-muted-foreground text-sm">{latest?.summary}</p>
+          <p className="text-xl font-semibold" dir="auto">{patient.data?.diagnosis.name}</p>
+          <p className="text-muted-foreground text-sm" dir="auto">{latest?.summary}</p>
         </section>
         <section className="space-y-3 rounded-xl border p-5">
           <p className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
@@ -72,7 +72,7 @@ export function ReviewStep({ patientId, onComplete }: StepProps) {
           </p>
           <ul className="space-y-2">
             {goalTitles.map((g) => (
-              <li key={g} className="flex items-center gap-2 text-sm font-medium">
+              <li key={g} className="flex items-center gap-2 text-sm font-medium" dir="auto">
                 <span className="bg-primary size-1.5 rounded-full" aria-hidden /> {g}
               </li>
             ))}
@@ -82,8 +82,8 @@ export function ReviewStep({ patientId, onComplete }: StepProps) {
           <p className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
             {t('review.risk')}
           </p>
-          <p className="text-sm">{latest?.riskNotes ?? t('review.noneRecorded')}</p>
-          <p className="text-muted-foreground text-sm">{latest?.clinicalConcerns}</p>
+          <p className="text-sm" dir="auto">{latest?.riskNotes ?? t('review.noneRecorded')}</p>
+          <p className="text-muted-foreground text-sm" dir="auto">{latest?.clinicalConcerns}</p>
         </section>
       </div>
 

@@ -38,9 +38,9 @@ export function TimelineTab({ patientId }: { patientId: string }) {
                   {i < data.length - 1 && <span className="bg-border w-0.5 flex-1" aria-hidden />}
                 </div>
                 <div className="pt-1.5 pb-6">
-                  <p className="font-medium">{e.title}</p>
+                  <p className="font-medium" dir="auto">{e.title}</p>
                   {e.description && (
-                    <p className="text-muted-foreground text-sm">{e.description}</p>
+                    <p className="text-muted-foreground text-sm" dir="auto">{e.description}</p>
                   )}
                 </div>
               </li>
