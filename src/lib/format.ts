@@ -1,19 +1,17 @@
-const dateFmt = new Intl.DateTimeFormat('en-GB', {
-  day: 'numeric',
-  month: 'short',
-  year: 'numeric',
-});
-const shortDateFmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short' });
-const timeFmt = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit' });
 
 /** Parses ISO date-only strings (YYYY-MM-DD) as local dates to avoid timezone shifts. */
 export function parseDate(value: string): Date {
   return /^\d{4}-\d{2}-\d{2}$/.test(value) ? new Date(`${value}T00:00:00`) : new Date(value);
 }
 
-export const formatDate = (value: string) => dateFmt.format(parseDate(value));
-export const formatShortDate = (value: string) => shortDateFmt.format(parseDate(value));
-export const formatTime = (value: string) => timeFmt.format(parseDate(value));
+export const formatDate = (value: string, locale = 'en-GB') =>
+  new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'short', year: 'numeric' }).format(parseDate(value));
+
+export const formatShortDate = (value: string, locale = 'en-GB') =>
+  new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'short' }).format(parseDate(value));
+
+export const formatTime = (value: string, locale = 'en-GB') =>
+  new Intl.DateTimeFormat(locale, { hour: '2-digit', minute: '2-digit' }).format(parseDate(value));
 export const formatPercent = (value: number) => `${Math.round(value)}%`;
 
 export function formatRelative(value: string, locale: string = 'en'): string {

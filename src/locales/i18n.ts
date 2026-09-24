@@ -12,6 +12,8 @@ import enPatientDetail from './en/patientDetail.json';
 import arPatientDetail from './ar/patientDetail.json';
 import enCarePlan from './en/carePlan.json';
 import arCarePlan from './ar/carePlan.json';
+import enPrograms from './en/programs.json';
+import arPrograms from './ar/programs.json';
 
 const resources = {
   en: {
@@ -20,6 +22,7 @@ const resources = {
     patients: enPatients,
     patientDetail: enPatientDetail,
     carePlan: enCarePlan,
+    programs: enPrograms,
   },
   ar: {
     common: arCommon,
@@ -27,6 +30,7 @@ const resources = {
     patients: arPatients,
     patientDetail: arPatientDetail,
     carePlan: arCarePlan,
+    programs: arPrograms,
   },
 };
 

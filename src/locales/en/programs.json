@@ -1,0 +1,11 @@
+{
+  "title": "Rehabilitation programs",
+  "description": "Active programs across all specialties.",
+  "emptyTitle": "No active programs",
+  "emptyDesc": "Programs are created from a patient’s care plan.",
+  "week": "Week",
+  "frequency": "Frequency",
+  "timesPerWk": "{{times}}× / wk",
+  "exercises": "Exercises",
+  "progress": "Overall progress · started {{date}}"
+}

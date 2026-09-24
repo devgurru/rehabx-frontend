@@ -45,7 +45,7 @@ export function KpiTrendChart({ kpis, className }: { kpis: PatientKpi[]; classNa
           tickLine={false}
           axisLine={false}
           tickMargin={8}
-          tickFormatter={formatShortDate}
+          tickFormatter={(v) => formatShortDate(v)}
           minTickGap={24}
         />
         <YAxis

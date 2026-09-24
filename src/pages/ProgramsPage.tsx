@@ -8,8 +8,10 @@ import { ProgressBar } from '@/components/shared/progress';
 import { EmptyState, ErrorState, PageSkeleton } from '@/components/shared/states';
 import { Card, CardContent } from '@/components/ui/card';
 import { formatDate } from '@/lib/format';
+import { useTranslation } from 'react-i18next';
 
 export default function ProgramsPage() {
+  const { t, i18n } = useTranslation('programs');
   const { data, isPending, error, refetch } = useAllPrograms();
   if (isPending) return <PageSkeleton />;
   if (error) return <ErrorState error={error} onRetry={() => void refetch()} />;
@@ -17,14 +19,14 @@ export default function ProgramsPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Rehabilitation programs"
-        description="Active programs across all specialties."
+        title={t('title')}
+        description={t('description')}
       />
       {data.length === 0 ? (
         <EmptyState
           icon={ClipboardList}
-          title="No active programs"
-          description="Programs are created from a patient’s care plan."
+          title={t('emptyTitle')}
+          description={t('emptyDesc')}
         />
       ) : (
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -36,31 +38,31 @@ export default function ProgramsPage() {
                     <div className="flex items-center gap-3">
                       <PatientAvatar name={p.patient.fullName} color={p.patient.avatarColor} />
                       <div>
-                        <p className="font-semibold">{p.patient.fullName}</p>
-                        <p className="text-muted-foreground text-sm">{p.name}</p>
+                        <p className="font-semibold" dir="auto">{p.patient.fullName}</p>
+                        <p className="text-muted-foreground text-sm" dir="auto">{p.name}</p>
                       </div>
                     </div>
                   </div>
                   <SpecialtyBadge specialty={p.specialty} />
                   <dl className="grid grid-cols-3 gap-2 text-sm">
                     <div>
-                      <dt className="text-muted-foreground text-xs">Week</dt>
+                      <dt className="text-muted-foreground text-xs">{t('week')}</dt>
                       <dd className="tabular font-semibold">
                         {p.currentWeek} / {p.durationWeeks}
                       </dd>
                     </div>
                     <div>
-                      <dt className="text-muted-foreground text-xs">Frequency</dt>
-                      <dd className="font-semibold">{p.sessionsPerWeek}× / wk</dd>
+                      <dt className="text-muted-foreground text-xs">{t('frequency')}</dt>
+                      <dd className="font-semibold">{t('timesPerWk', { times: p.sessionsPerWeek })}</dd>
                     </div>
                     <div>
-                      <dt className="text-muted-foreground text-xs">Exercises</dt>
+                      <dt className="text-muted-foreground text-xs">{t('exercises')}</dt>
                       <dd className="tabular font-semibold">{p.exerciseCount}</dd>
                     </div>
                   </dl>
                   <div className="space-y-1.5">
                     <p className="text-muted-foreground text-xs">
-                      Overall progress · started {formatDate(p.startDate)}
+                      {t('progress', { date: formatDate(p.startDate, i18n.language) })}
                     </p>
                     <ProgressBar value={p.progress} />
                   </div>
