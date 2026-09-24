@@ -116,7 +116,7 @@ export function AppShell() {
         <SidebarFooter>
           <SidebarMenu>
             <SidebarMenuItem>
-              <DropdownMenu dir={i18n.dir()}>
+              <DropdownMenu dir={i18n.dir()} modal={false}>
                 <DropdownMenuTrigger asChild>
                   <SidebarMenuButton size="lg" className="data-[state=open]:bg-sidebar-accent">
                     <PatientAvatar
@@ -160,10 +160,10 @@ export function AppShell() {
             {t('nav.clinicName')}
           </span>
           <div className="ms-auto flex items-center gap-2">
+            <LanguageSwitcher />
             <span className="bg-card text-muted-foreground hidden rounded-full border px-2.5 py-1 text-xs font-medium sm:inline">
               {t('nav.demoEnvironment')}
             </span>
-            <LanguageSwitcher />
           </div>
         </header>
         <main className="mx-auto w-full max-w-[1400px] flex-1 p-4 md:p-6 lg:p-8">

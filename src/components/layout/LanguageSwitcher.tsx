@@ -16,9 +16,9 @@ export function LanguageSwitcher() {
   };
 
   return (
-    <DropdownMenu dir={i18n.dir()}>
+    <DropdownMenu dir={i18n.dir()} modal={false}>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
+        <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0">
           <Globe className="h-4 w-4" />
           <span className="sr-only">Toggle language</span>
         </Button>
