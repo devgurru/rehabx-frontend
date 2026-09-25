@@ -3,9 +3,13 @@
 import * as React from 'react';
 import { cn } from 'cn';
 
-function Table({ className, ...props }: React.ComponentProps<'table'>) {
+interface TableProps extends React.ComponentProps<'table'> {
+  wrapperClassName?: string;
+}
+
+function Table({ className, wrapperClassName, ...props }: TableProps) {
   return (
-    <div data-slot="table-container" className="relative w-full overflow-x-auto">
+    <div data-slot="table-container" className={cn('relative w-full overflow-auto bg-[linear-gradient(to_bottom,var(--muted)_44px,transparent_44px)] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:mt-11 [&::-webkit-scrollbar-thumb]:bg-muted-foreground/20 hover:[&::-webkit-scrollbar-thumb]:bg-muted-foreground/30 [&::-webkit-scrollbar-thumb]:rounded-full', wrapperClassName)}>
       <table
         data-slot="table"
         className={cn('w-full caption-bottom text-sm', className)}

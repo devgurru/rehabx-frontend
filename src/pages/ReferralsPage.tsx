@@ -1,8 +1,10 @@
 import { Send } from 'lucide-react';
+import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { useAllReferrals } from '@/api/queries';
 import { SpecialtyBadge } from '@/components/shared/badges';
 import { PageHeader } from '@/components/shared/PageHeader';
+import { PaginationControls } from '@/components/shared/PaginationControls';
 import { PatientAvatar } from '@/components/shared/PatientAvatar';
 import { EmptyState, ErrorState, PageSkeleton } from '@/components/shared/states';
 import { Badge } from '@/components/ui/badge';
@@ -22,6 +24,14 @@ export default function ReferralsPage() {
   const { t, i18n } = useTranslation('referrals');
   const navigate = useNavigate();
   const { data, isPending, error, refetch } = useAllReferrals();
+
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+
+  const paginatedData = useMemo(() => {
+    return (data || []).slice((page - 1) * pageSize, page * pageSize);
+  }, [data, page, pageSize]);
+
   if (isPending) return <PageSkeleton />;
   if (error) return <ErrorState error={error} onRetry={() => void refetch()} />;
 
@@ -34,20 +44,20 @@ export default function ReferralsPage() {
       {data.length === 0 ? (
         <EmptyState icon={Send} title={t('emptyTitle')} />
       ) : (
-        <Card className="overflow-hidden py-0">
-          <Table>
+        <Card className="overflow-hidden py-0 flex flex-col">
+          <Table wrapperClassName="max-h-[600px]">
             <TableHeader>
-              <TableRow className="bg-muted/50 hover:bg-muted/50">
-                <TableHead className="pl-5">{t('patient')}</TableHead>
-                <TableHead>{t('specialty')}</TableHead>
-                <TableHead>{t('reason')}</TableHead>
-                <TableHead>{t('referredBy')}</TableHead>
-                <TableHead>{t('date')}</TableHead>
-                <TableHead className="pr-5">{t('status')}</TableHead>
+              <TableRow className="bg-muted hover:bg-muted sticky top-0 z-10 shadow-sm">
+                <TableHead className="pl-5 h-11 text-xs uppercase tracking-wider font-semibold">{t('patient')}</TableHead>
+                <TableHead className="h-11 text-xs uppercase tracking-wider font-semibold">{t('specialty')}</TableHead>
+                <TableHead className="h-11 text-xs uppercase tracking-wider font-semibold">{t('reason')}</TableHead>
+                <TableHead className="h-11 text-xs uppercase tracking-wider font-semibold">{t('referredBy')}</TableHead>
+                <TableHead className="h-11 text-xs uppercase tracking-wider font-semibold">{t('date')}</TableHead>
+                <TableHead className="pr-5 h-11 text-xs uppercase tracking-wider font-semibold">{t('status')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data.map((r) => (
+              {paginatedData.map((r) => (
                 <TableRow
                   key={r.id}
                   className="cursor-pointer"
@@ -88,6 +98,13 @@ export default function ReferralsPage() {
               ))}
             </TableBody>
           </Table>
+          <PaginationControls
+            page={page}
+            pageSize={pageSize}
+            totalItems={data.length}
+            onPageChange={setPage}
+            onPageSizeChange={(s) => { setPageSize(s); setPage(1); }}
+          />
         </Card>
       )}
     </div>

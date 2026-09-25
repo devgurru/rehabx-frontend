@@ -11,6 +11,7 @@
     "assessment": "التقييم",
     "plan": "خطة إعادة التأهيل",
     "exercises": "التمارين",
+    "sessions": "الجلسات والملاحظات",
     "kpis": "مؤشرات الأداء",
     "progress": "التقدم",
     "milestones": "المعالم",
@@ -122,5 +123,24 @@
     "noActivity": "لا يوجد نشاط بعد",
     "title": "الجدول الزمني لإعادة التأهيل",
     "desc": "رحلة المريض من التقييم إلى النتائج"
+  },
+  "sessions": {
+    "totalCompleted": "التمارين المكتملة",
+    "sessionsLogged": "الجلسات المسجلة",
+    "totalMinutes": "إجمالي الدقائق",
+    "logTitle": "سجل الجلسات والملاحظات السريرية",
+    "logDesc": "جلسات التمارين المنزلية التي أكملها مقدم الرعاية - اضغط على صف لقراءة ملاحظة الجلسة",
+    "noSessions": "لا توجد جلسات مسجلة بعد",
+    "colDate": "التاريخ",
+    "colExercises": "التمارين",
+    "colDuration": "المدة",
+    "colStatus": "الحالة",
+    "colNote": "الملاحظة",
+    "viewNote": "عرض الملاحظة",
+    "hideNote": "إخفاء الملاحظة",
+    "statusCompleted": "مكتمل",
+    "statusPartial": "جزئي",
+    "exerciseCount": "{{count}} تمارين",
+    "durationMin": "{{min}} دقيقة"
   }
 }

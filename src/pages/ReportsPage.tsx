@@ -1,5 +1,5 @@
-import { Building2, ClipboardList, Dumbbell, Gauge, Layers, Send } from 'lucide-react';
-import { usePlatformStats } from '@/api/queries';
+import { Building2, ClipboardList, Dumbbell, Gauge, Layers, Send, TrendingUp, Users, HeartPulse, CalendarCheck } from 'lucide-react';
+import { useDashboard, usePlatformStats } from '@/api/queries';
 import { PageHeader } from '@/components/shared/PageHeader';
 import { ErrorState, PageSkeleton } from '@/components/shared/states';
 import { StatCard } from '@/components/shared/StatCard';
@@ -18,6 +18,7 @@ import { useTranslation } from 'react-i18next';
 export default function ReportsPage() {
   const { t } = useTranslation('reports');
   const { data, isPending, error, refetch } = usePlatformStats();
+  const { data: dashData, isPending: dashPending } = useDashboard();
 
   const ROADMAP = [
     {
@@ -37,8 +38,12 @@ export default function ReportsPage() {
       text: t('roadmap4Text'),
     },
   ];
-  if (isPending) return <PageSkeleton />;
+  if (isPending || dashPending) return <PageSkeleton />;
   if (error) return <ErrorState error={error} onRetry={() => void refetch()} />;
+  
+  const patientsImproving = dashData?.topPatients.length
+    ? Math.round((dashData.topPatients.filter((p) => p.progress > 0).length / dashData.topPatients.length) * 100)
+    : 0;
 
   return (
     <div className="space-y-6">
@@ -47,32 +52,84 @@ export default function ReportsPage() {
         description={t('description')}
         actions={<Badge variant="outline">{t('adminPreview')}</Badge>}
       />
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-        <StatCard
-          label={t('statSpecialties')}
-          value={data.totals.specialties}
-          icon={Building2}
-          hint={t('hintSpecialties')}
-        />
-        <StatCard
-          label={t('statKpis')}
-          value={data.totals.kpis}
-          icon={Gauge}
-          hint={t('hintKpis')}
-        />
-        <StatCard
-          label={t('statExercises')}
-          value={data.totals.exercises}
-          icon={Dumbbell}
-          hint={t('hintExercises')}
-        />
-        <StatCard label={t('statPrograms')} value={data.totals.programs} icon={ClipboardList} />
-        <StatCard label={t('statReferrals')} value={data.totals.referrals} icon={Send} />
-        <StatCard
-          label={t('statSessions')}
-          value={data.totals.completedSessions}
-          icon={Layers}
-        />
+
+      {/* ── Platform-wide demo KPIs ─────────────────────────────── */}
+      <div>
+        <p className="text-muted-foreground mb-3 text-xs font-semibold uppercase tracking-wide">
+          {t('platformOverview')}
+        </p>
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          <StatCard
+            label={t('bigStatPatients')}
+            value={dashData?.stats.totalPatients ?? 0}
+            icon={Users}
+            hint={t('bigHintPatients')}
+          />
+          <StatCard
+            label={t('bigStatPrograms')}
+            value={data.totals.programs}
+            icon={ClipboardList}
+            hint={t('bigHintPrograms')}
+          />
+          <StatCard
+            label={t('bigStatSessions')}
+            value={data.totals.completedSessions}
+            icon={CalendarCheck}
+            hint={t('bigHintSessions')}
+          />
+          <StatCard
+            label={t('bigStatImproving')}
+            value={`${patientsImproving}%`}
+            icon={TrendingUp}
+            hint={t('bigHintImproving')}
+          />
+          <StatCard
+            label={t('bigStatAvgProgress')}
+            value={`+${dashData?.stats.averageProgress ?? 0}%`}
+            icon={HeartPulse}
+            hint={t('bigHintAvgProgress')}
+          />
+          <StatCard
+            label={t('bigStatSpecialties')}
+            value={data.totals.specialties}
+            icon={Building2}
+            hint={t('bigHintSpecialties')}
+          />
+        </div>
+      </div>
+
+      {/* ── Catalog stats from real DB ───────────────────────────── */}
+      <div>
+        <p className="text-muted-foreground mb-3 text-xs font-semibold uppercase tracking-wide">
+          {t('catalogOverview')}
+        </p>
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          <StatCard
+            label={t('statSpecialties')}
+            value={data.totals.specialties}
+            icon={Building2}
+            hint={t('hintSpecialties')}
+          />
+          <StatCard
+            label={t('statKpis')}
+            value={data.totals.kpis}
+            icon={Gauge}
+            hint={t('hintKpis')}
+          />
+          <StatCard
+            label={t('statExercises')}
+            value={data.totals.exercises}
+            icon={Dumbbell}
+            hint={t('hintExercises')}
+          />
+          <StatCard label={t('statPrograms')} value={data.totals.programs} icon={ClipboardList} />
+          <StatCard label={t('statReferrals')} value={data.totals.referrals} icon={Send} />
+          <StatCard
+            label={t('statSessions')}
+            value={data.totals.completedSessions}
+            icon={Layers}
+          />
+        </div>
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">

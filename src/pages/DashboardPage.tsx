@@ -1,4 +1,5 @@
-import { ArrowRight, ClipboardList, Eye, TrendingUp, Users } from 'lucide-react';
+import { ArrowRight, ClipboardList, Eye, Sparkles, TrendingUp, Users, X } from 'lucide-react';
+import { useState } from 'react';
 import { Link } from 'react-router';
 import { useDashboard } from '@/api/queries';
 import { AdherenceChart } from '@/components/charts/AdherenceChart';
@@ -27,6 +28,7 @@ export default function DashboardPage() {
   const { t } = useTranslation('dashboard');
   const user = useAppSelector((s) => s.auth.user);
   const { data, isPending, error, refetch } = useDashboard();
+  const [showBanner, setShowBanner] = useState(true);
 
   if (isPending) return <PageSkeleton />;
   if (error) return <ErrorState error={error} onRetry={() => void refetch()} />;
@@ -50,6 +52,25 @@ export default function DashboardPage() {
           </Button>
         }
       />
+
+      {showBanner && (
+        <div className="bg-brand-soft/50 border-brand/20 relative flex items-start gap-4 rounded-xl border p-4 shadow-sm sm:items-center">
+          <div className="bg-brand text-brand-foreground flex size-10 shrink-0 items-center justify-center rounded-lg">
+            <Sparkles className="size-5" aria-hidden />
+          </div>
+          <div className="flex-1">
+            <h3 className="text-foreground font-semibold">{t('demoBanner.title')}</h3>
+            <p className="text-muted-foreground text-sm">{t('demoBanner.description')}</p>
+          </div>
+          <button
+            onClick={() => setShowBanner(false)}
+            className="text-muted-foreground hover:text-foreground p-1 transition-colors"
+            aria-label={t('demoBanner.dismiss')}
+          >
+            <X className="size-5" />
+          </button>
+        </div>
+      )}
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard
@@ -161,13 +182,14 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="flex flex-col">
           <CardHeader>
             <CardTitle>{t('cards.homeExercise.title')}</CardTitle>
             <CardDescription>{t('cards.homeExercise.description')}</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="flex-1 pb-2">
             <AdherenceChart
+              className="h-full w-full min-h-[14rem] aspect-auto"
               data={data.adherenceTrend.map((w) => ({
                 label: formatShortDate(w.weekStart),
                 completed: w.completed,

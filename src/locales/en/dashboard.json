@@ -9,6 +9,11 @@
     "description": "Here is how your pediatric rehabilitation caseload is progressing.",
     "viewPatients": "View patients"
   },
+  "demoBanner": {
+    "title": "Welcome to the RehabX prototype",
+    "description": "This dashboard demonstrates how a clinician tracks outcomes across specialties. Try opening a patient profile.",
+    "dismiss": "Dismiss"
+  },
   "stats": {
     "totalPatients": "Total patients",
     "pediatricCaseload": "Pediatric caseload",

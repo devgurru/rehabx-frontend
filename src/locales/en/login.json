@@ -1,0 +1,18 @@
+{
+  "portalLabel": "Clinician portal",
+  "heroHeading": "Every child's rehabilitation journey, measured end to end.",
+  "highlight1": "Structured assessment, clinical review and specialty referral",
+  "highlight2": "Measurable KPIs from baseline to target, updated from home exercise",
+  "highlight3": "Role-based access for clinicians and caregivers",
+  "disclaimerSidebar": "Investor prototype · fictional demo data · not for clinical use",
+  "title": "Sign in",
+  "subtitle": "Access your patients, care plans and outcomes.",
+  "continueDemo": "Continue as demo clinician",
+  "orSignIn": "or sign in with email",
+  "emailLabel": "Email",
+  "passwordLabel": "Password",
+  "signIn": "Sign in",
+  "demoHint": "Demo account: {{email}} · password demo",
+  "roleMismatch": "This portal is for clinicians. Caregivers use the RehabX mobile app.",
+  "switchLanguage": "Switch language"
+}

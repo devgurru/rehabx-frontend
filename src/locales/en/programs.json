@@ -7,5 +7,11 @@
   "frequency": "Frequency",
   "timesPerWk": "{{times}}× / wk",
   "exercises": "Exercises",
-  "progress": "Overall progress · started {{date}}"
+  "progress": "Overall progress · started {{date}}",
+  "tablePatient": "Patient",
+  "tableProgram": "Program",
+  "tableSpecialty": "Specialty",
+  "tableWeek": "Week",
+  "tableFrequency": "Frequency",
+  "tableProgress": "Progress"
 }

@@ -1,10 +1,11 @@
 import { Search, SearchX, X } from 'lucide-react';
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { usePatients, useSpecialties } from '@/api/queries';
 import { PatientStatusBadge, SpecialtyBadge } from '@/components/shared/badges';
 import { PageHeader } from '@/components/shared/PageHeader';
 import { PatientAvatar } from '@/components/shared/PatientAvatar';
+import { PaginationControls } from '@/components/shared/PaginationControls';
 import { ProgressBar } from '@/components/shared/progress';
 import { EmptyState, ErrorState } from '@/components/shared/states';
 import { Button } from '@/components/ui/button';
@@ -57,6 +58,17 @@ export default function PatientsPage() {
 
   const isFiltered =
     filters.search !== '' || filters.specialtyId !== 'all' || filters.status !== 'all';
+
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+
+  useEffect(() => {
+    setPage(1);
+  }, [filters]);
+
+  const paginatedData = useMemo(() => {
+    return filtered.slice((page - 1) * pageSize, page * pageSize);
+  }, [filtered, page, pageSize]);
 
   return (
     <div className="space-y-6">
@@ -123,17 +135,17 @@ export default function PatientsPage() {
       {error ? (
         <ErrorState error={error} onRetry={() => void refetch()} />
       ) : (
-        <Card className="overflow-hidden py-0">
-          <Table>
+        <Card className="overflow-hidden py-0 flex flex-col">
+          <Table wrapperClassName="max-h-[600px]">
             <TableHeader>
-              <TableRow className="bg-muted/50 hover:bg-muted/50">
-                <TableHead className="ps-5">{t('table.patient')}</TableHead>
-                <TableHead>{t('table.age')}</TableHead>
-                <TableHead>{t('table.diagnosis')}</TableHead>
-                <TableHead>{t('table.specialty')}</TableHead>
-                <TableHead className="w-48">{t('table.progress')}</TableHead>
-                <TableHead>{t('table.status')}</TableHead>
-                <TableHead className="pe-5">{t('table.lastAssessment')}</TableHead>
+              <TableRow className="bg-muted hover:bg-muted sticky top-0 z-10 shadow-sm">
+                <TableHead className="ps-5 h-11 text-xs uppercase tracking-wider font-semibold">{t('table.patient')}</TableHead>
+                <TableHead className="h-11 text-xs uppercase tracking-wider font-semibold">{t('table.age')}</TableHead>
+                <TableHead className="h-11 text-xs uppercase tracking-wider font-semibold">{t('table.diagnosis')}</TableHead>
+                <TableHead className="h-11 text-xs uppercase tracking-wider font-semibold">{t('table.specialty')}</TableHead>
+                <TableHead className="w-48 h-11 text-xs uppercase tracking-wider font-semibold">{t('table.progress')}</TableHead>
+                <TableHead className="h-11 text-xs uppercase tracking-wider font-semibold">{t('table.status')}</TableHead>
+                <TableHead className="pe-5 h-11 text-xs uppercase tracking-wider font-semibold">{t('table.lastAssessment')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -145,7 +157,7 @@ export default function PatientsPage() {
                     </TableCell>
                   </TableRow>
                 ))}
-              {filtered.map((p) => (
+              {paginatedData.map((p) => (
                 <TableRow
                   key={p.id}
                   className="cursor-pointer"
@@ -187,6 +199,15 @@ export default function PatientsPage() {
               ))}
             </TableBody>
           </Table>
+          {!isPending && filtered.length > 0 && (
+            <PaginationControls
+              page={page}
+              pageSize={pageSize}
+              totalItems={filtered.length}
+              onPageChange={setPage}
+              onPageSizeChange={(s) => { setPageSize(s); setPage(1); }}
+            />
+          )}
           {!isPending && filtered.length === 0 && (
             <EmptyState
               icon={SearchX}

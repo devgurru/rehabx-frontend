@@ -7,5 +7,11 @@
   "frequency": "التكرار",
   "timesPerWk": "{{times}}× / أسبوع",
   "exercises": "التمارين",
-  "progress": "التقدم العام · بدأ في {{date}}"
+  "progress": "التقدم العام · بدأ في {{date}}",
+  "tablePatient": "المريض",
+  "tableProgram": "البرنامج",
+  "tableSpecialty": "التخصص",
+  "tableWeek": "أسبوع",
+  "tableFrequency": "التكرار",
+  "tableProgress": "التقدم"
 }

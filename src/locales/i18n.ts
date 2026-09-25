@@ -6,6 +6,8 @@ import enCommon from './en/common.json';
 import arCommon from './ar/common.json';
 import enDashboard from './en/dashboard.json';
 import arDashboard from './ar/dashboard.json';
+import enLogin from './en/login.json';
+import arLogin from './ar/login.json';
 import enPatients from './en/patients.json';
 import arPatients from './ar/patients.json';
 import enPatientDetail from './en/patientDetail.json';
@@ -25,6 +27,7 @@ const resources = {
   en: {
     common: enCommon,
     dashboard: enDashboard,
+    login: enLogin,
     patients: enPatients,
     patientDetail: enPatientDetail,
     carePlan: enCarePlan,
@@ -36,6 +39,7 @@ const resources = {
   ar: {
     common: arCommon,
     dashboard: arDashboard,
+    login: arLogin,
     patients: arPatients,
     patientDetail: arPatientDetail,
     carePlan: arCarePlan,

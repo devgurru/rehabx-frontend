@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 
 export default function KpisPage() {
   const { t } = useTranslation('kpis');
-  
+
   const CATEGORIES: { key: KpiCategory; title: string; description: string }[] = [
     {
       key: 'GENERAL',

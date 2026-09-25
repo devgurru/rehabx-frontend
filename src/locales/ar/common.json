@@ -283,5 +283,9 @@
     "COMPLETED": "مكتمل",
     "IN_PROGRESS": "قيد التقدم",
     "NOT_STARTED": "لم يبدأ"
+  },
+  "pagination": {
+    "rowsPerPage": "الصفوف لكل صفحة:",
+    "pageOf": "الصفحة {{page}} من {{total}}"
   }
 }

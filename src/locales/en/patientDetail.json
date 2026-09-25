@@ -11,6 +11,7 @@
     "assessment": "Assessment",
     "plan": "Rehabilitation plan",
     "exercises": "Exercises",
+    "sessions": "Sessions & Notes",
     "kpis": "KPIs",
     "progress": "Progress",
     "milestones": "Milestones",
@@ -122,5 +123,24 @@
     "noActivity": "No activity yet",
     "title": "Rehabilitation timeline",
     "desc": "The patient journey from assessment to outcomes"
+  },
+  "sessions": {
+    "totalCompleted": "Exercises completed",
+    "sessionsLogged": "Sessions logged",
+    "totalMinutes": "Total minutes",
+    "logTitle": "Session log & clinical notes",
+    "logDesc": "Home exercise sessions completed by the caregiver — click a row to read the session note",
+    "noSessions": "No sessions recorded yet",
+    "colDate": "Date",
+    "colExercises": "Exercises",
+    "colDuration": "Duration",
+    "colStatus": "Status",
+    "colNote": "Note",
+    "viewNote": "View note",
+    "hideNote": "Hide note",
+    "statusCompleted": "Completed",
+    "statusPartial": "Partial",
+    "exerciseCount": "{{count}} exercises",
+    "durationMin": "{{min}} min"
   }
 }

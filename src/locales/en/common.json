@@ -283,5 +283,9 @@
     "COMPLETED": "Completed",
     "IN_PROGRESS": "In progress",
     "NOT_STARTED": "Not started"
+  },
+  "pagination": {
+    "rowsPerPage": "Rows per page:",
+    "pageOf": "Page {{page}} of {{total}}"
   }
 }

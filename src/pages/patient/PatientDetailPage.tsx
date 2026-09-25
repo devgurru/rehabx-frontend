@@ -14,6 +14,7 @@ import { MilestonesTab } from './MilestonesTab';
 import { OverviewTab } from './OverviewTab';
 import { PlanTab } from './PlanTab';
 import { ProgressTab } from './ProgressTab';
+import { SessionsTab } from './SessionsTab';
 import { TimelineTab } from './TimelineTab';
 
 const TABS = [
@@ -21,6 +22,7 @@ const TABS = [
   { value: 'assessment', i18nKey: 'assessment' },
   { value: 'plan', i18nKey: 'plan' },
   { value: 'exercises', i18nKey: 'exercises' },
+  { value: 'sessions', i18nKey: 'sessions' },
   { value: 'kpis', i18nKey: 'kpis' },
   { value: 'progress', i18nKey: 'progress' },
   { value: 'milestones', i18nKey: 'milestones' },
@@ -100,6 +102,9 @@ export default function PatientDetailPage() {
         </TabsContent>
         <TabsContent value="exercises" className="mt-4">
           <ExercisesTab patientId={id} />
+        </TabsContent>
+        <TabsContent value="sessions" className="mt-4">
+          <SessionsTab patientId={id} />
         </TabsContent>
         <TabsContent value="kpis" className="mt-4">
           <KpisTab patientId={id} />

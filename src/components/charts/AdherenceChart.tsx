@@ -32,7 +32,7 @@ export function AdherenceChart({
       <BarChart
         data={data}
         barCategoryGap="30%"
-        margin={{ top: 16, right: 8, left: -20, bottom: 0 }}
+        margin={{ top: 16, right: 8, left: 0, bottom: 0 }}
       >
         <CartesianGrid vertical={false} strokeDasharray="3 3" />
         <XAxis dataKey="label" tickLine={false} axisLine={false} tickMargin={8} />
